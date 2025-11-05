@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Der ML-Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    
+    </head>
+<body>
+
+    <header>
+        <div class="header-title-group">
+            <img src="logo.png" alt="Gynesa" class="header-logo" width="200px">
+            <h1>Der ML-Explorer</h1>
+        </div>
+        <h2>Drei Experimente zum Maschinellen Lernen</h2>
+        <nav>
+            <button class="nav-button active" data-target="modul-1">Überwachtes Lernen (Supervised Learning)</button>
+            <button class="nav-button" data-target="modul-2">Unüberwachtes Lernen (Unsupervised Learning)</button>
+            <button class="nav-button" data-target="modul-3">Bestärkendes Lernen (Reinforcement Learning)</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="modul-1" class="module active">
+            
+            <div class="explanation-box">
+                <h4>Was ist "Überwachtes Lernen" (Supervised Learning)?</h4>
+                <p>Beim <b>Überwachten Lernen</b> ist der Mensch der Lehrer. Wir geben einem Modell Beispiele und die *richtigen Antworten* (genannt 'Labels'). Das Modell lernt, die Muster zu erkennen, die zu einer bestimmten Antwort führen.</p>
+                <p><b>Der Prozess ist dabei immer:</b></p>
+                <ol>
+                    <li><b>Labeln:</b> Du (der Mensch) erstellst **Trainingsdaten**. In diesem Experiment sind das deine 15 Bananen, denen du die Antwort 'Lecker' oder 'Nicht Lecker' gibst.</li>
+                    <li><b>Trainieren:</b> Das Modell "sieht" sich diese Trainingsdaten an und versucht, eine allgemeine Regel oder Formel zu finden. Hier: Es lernt die <b>zwei optimalen Trennlinien</b>, die deinen 'Lecker'-Bereich am besten beschreiben.</li>
+                    <li><b>Testen:</b> Um zu prüfen, ob das Modell wirklich gelernt hat (und nicht nur auswendig gelernt), überprüft man es mit **Testdaten** – neuen Daten, die es noch nie gesehen hat (deine 5 Test-Bananen).</li>
+                </ol>
+                <p><b>Alltagsbeispiele:</b> Spam-Filter (Spam/Kein Spam), Qualitätskontrolle in der Produktion, Bilderkennung (Hund/Katze).</p>
+            </div>
+
+            <div class="column">
+                <h3>SCHRITT 1: TRAINIERE DAS MODELL (DATEN LABELN)</h3>
+                <p>Du bist der Lehrer! Hier sind 15 Bananen. Klicke, um sie als 'Lecker' oder 'Nicht Lecker' zu labeln und so **Trainingsdaten** zu erstellen.</p>
+                
+                <div class="chart-container" id="banana-chart-container">
+                    <canvas id="bananaChart"></canvas>
+                </div>
+
+                <div id="banana-labeling-controls">
+                    <p id="banana-labeling-prompt">Bewerte diese Banane (graues Icon):</p>
+                    <div class="button-group">
+                        <button id="label-lecker" class="btn btn-pass">Lecker</button>
+                        <button id="label-nicht-lecker" class="btn btn-fail">Nicht Lecker</button>
+                    </div>
+                </div>
+
+                <button id="train-banana-button" class="btn" style="display: none;">Modell den 'Lecker'-Bereich lernen lassen!</button>
+            </div>
+
+            <div class="column">
+                <h3>SCHRITT 2: TESTE DEIN MODELL</h3>
+                <p>Das Modell hat deine Regel (die zwei Trennlinien) gelernt. Teste es mit 5 neuen, unbekannten **Testdaten**!</p>
+                <button id="test-banana-button" class="btn" disabled>Test starten</button>
+                <div id="banana-test-result">
+                    <p>Bitte trainiere das Modell, indem du 15 Bananen labelst.</p>
+                </div>
+            </div>
+
+            <div class="post-experiment-box">
+                <h4>Verständnisfragen</h4>
+                <ul>
+                    <li>Was war in diesem Experiment das "Label"? (Die "Antwort", die du dem Modell gegeben hast)</li>
+                    <li>Warum wird dieser Ansatz "überwacht" genannt?</li>
+                    <li>Was war die eigentliche Aufgabe des Modells? War es, sich deine 15 Bananen zu merken, oder eine allgemeine Regel (den "Bereich") zu finden?</li>
+                    <li><b>Vertiefende Frage:</b> Dieses Experiment nutzt nur eine Dimension (die Reife-Achse). Was würde sich ändern, wenn wir eine zweite Eigenschaft, z.B. 'Größe der Banane' (als Y-Achse), hinzufügen? Wie würde der 'Lecker'-Bereich, den das Modell lernt, dann aussehen?</li>
+                </ul>
+                <div class="sources">
+                    <p><b>Vertiefende Quellen:</b></p>
+                    <ul>
+                        <li><a href="https://de.wikipedia.org/wiki/%C3%9Cberwachtes_Lernen" target="_blank">Überwachtes Lernen (Wikipedia)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="modul-2" class="module">
+
+            <div class="explanation-box">
+                <h4>Was ist "Unüberwachtes Lernen" (Unsupervised Learning)?</h4>
+                <p>Beim <b>Unüberwachten Lernen</b> gibt es keinen Lehrer und keine richtigen Antworten. Das Modell bekommt nur einen Haufen Daten und die Aufgabe: 'Finde eine interessante Struktur!'</p>
+                <p>Hier beim <b>Clustering</b> ist die Aufgabe: 'Finde `k` Haufen!'. Das Modell weiß nicht, *was* die Haufen bedeuten (z.B. 'Rock' oder 'Pop'), sondern nur, welche Datenpunkte sich ähneln.</p>
+                <p>Der Algorithmus (<b>k-Means</b>) funktioniert so:</p>
+                <p><b>1. Raten:</b> Es werden `k` 'Cluster-Mitten' (💠) zufällig platziert.</p>
+                <p><b>2. Zuweisen:</b> Jeder Punkt wird (<b>sofort</b>) in der Farbe der nächsten Mitte eingefärbt.</p>
+                <p><b>3. Anpassen:</b> Jede Mitte *verschiebt* (<b>animiert</b>) sich dorthin, wo der Mittelpunkt ihrer neuen farbigen Punkte ist. (Schritt 2 und 3 werden wiederholt).</p>
+                <p><b>Alltagsbeispiele:</b> Netflix-Empfehlungen ("Kunden, die das sahen, sahen auch..."), Kundensegmentierung im Marketing.</p>
+            </div>
+
+            <div class="column">
+                <h3>DATENSATZ: 100 SONGS</h3>
+                <p>Hier siehst du 100 Songs, die in 4 Gruppen "gespreizt" sind. Das Modell weiß nicht, was die Gruppen bedeuten.</p>
+                <div class="chart-container">
+                    <canvas id="musicChart"></canvas>
+                </div>
+            </div>
+
+            <div class="column">
+                <h3>SCHRITT 1: LASSE DAS MODELL CLUSTER FINDEN</h3>
+                <p>Lass das Modell nach 'Haufen' (Clustern) suchen. Wie viele Gruppen (k) soll es finden?</p>
+                <div class="slider-container">
+                    <label for="k-slider">Anzahl der Cluster (k): <span id="k-value">4</span></label>
+                    <input type="range" id="k-slider" min="2" max="6" value="4">
+                </div>
+                <button id="cluster-button" class="btn">Cluster-Bildung animieren!</button>
+                <div id="cluster-analysis">
+                    <p>Wähle die Anzahl der Cluster und starte die Animation.</p>
+                </div>
+            </div>
+            
+            <div class="post-experiment-box">
+                <h4>Verständnisfragen</h4>
+                <ul>
+                    <li>Was war die *einzige* Information, die du dem Modell vor dem Start geben musstest?</li>
+                    <li>Warum heißt dieser Ansatz "unüberwacht"? (Was fehlt im Vergleich zu Modul 1?)</li>
+                    <li>Was passiert, wenn du `k=2` wählst, obwohl es 4 Haufen gibt? Findet das Modell trotzdem ein (mathematisch korrektes) Ergebnis?</li>
+                    <li><b>Vertiefende Frage:</b> Ein Supermarkt analysiert riesige Datenmengen und clustert Kunden basierend auf 'Anzahl der Artikel' (X-Achse) und 'Gesamter Kaufpreis' (Y-Achse). Welche Kundengruppen könnte er finden (z.B. 'Käufer von wenigen, teuren Artikeln' vs. 'Käufer von vielen, günstigen Artikeln') und was könnte der Supermarkt mit diesem Wissen anfangen (z.B. für gezielte Werbung)?</li>
+                </ul>
+                <div class="sources">
+                    <p><b>Vertiefende Quellen:</b></p>
+                    <ul>
+                        <li><a href="https://de.wikipedia.org/wiki/Clusteranalyse" target="_blank">Clusteranalyse (Wikipedia)</a></li>
+                        <li><a href="https://de.wikipedia.org/wiki/K-Means-Algorithmus" target="_blank">k-Means-Algorithmus (Wikipedia)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="modul-3" class="module">
+
+            <div class="explanation-box">
+                <h4>Was ist "Bestärkendes Lernen" (Reinforcement Learning)?</h4>
+                <p>Beim <b>Bestärkenden Lernen</b> lernt ein 'Agent' (der Roboter) durch pures <b>'Versuch & Irrtum'</b> (Trial & Error). Es gibt keinen Lehrer, der den richtigen Weg zeigt, sondern nur eine 'Umgebung', die Feedback gibt.</p>
+                <p>Dieses Feedback besteht aus <b>Belohnungen</b> ('Rewards' für Gold) und <b>Bestrafungen</b> ('Penalties' für Lava oder jeden Schritt). Der Agent ist anfangs dumm und sein einziges Ziel ist, seine Gesamtbelohnung über die Zeit zu maximieren.</p>
+                <p><b>Der Lernprozess (Training):</b></p>
+                <p><b>1. Versuch & Irrtum:</b> In der Simulation läuft der Agent Tausende Male zufällig herum.</p>
+                <p><b>2. Wissen verbreiten:</b> Findet er das Gold, wird diese positive Belohnung 'rückwärts' durch das Spielfeld gesickert. Felder *nahe* am Gold werden 'wertvoller' (Grün), Felder *nahe* an der Lava 'gefährlicher' (<b>Violett</b>).</p>
+                <p><b>3. Ergebnis (Heatmap):</b> Die 'Wissens-Karte' (Q-Tabelle) zeigt den gelernten Wert für jedes Feld an. Der 'optimale Pfad' ist dann nur das 'Folgen' der grünsten Felder.</p>
+                <p><b>Alltagsbeispiele:</b> KI in Computerspielen (z.B. Schach), Roboter, die Laufen lernen, Optimierung von Lieferketten.</p>
+            </div>
+
+            <div class="column">
+                <h3>DAS SPIELFELD (GRIDWORLD)</h3>
+                <p>Ein Roboter ('Agent') soll den Weg zum Gold finden. Er ist anfangs dumm und bewegt sich zufällig.</p>
+                <div id="grid-world">
+                    </div>
+            </div>
+
+            <div class="column">
+                <h3>SCHRITT 1: SETZE DIE REGELN (BELOHNUNGEN)</h3>
+                <p>Sage dem Agenten, was 'gut' und 'schlecht' ist.</p>
+                <div class="reward-inputs">
+                    <div>
+                        <label for="reward-step">Belohnung für jeden Schritt:</label>
+                        <input type="number" id="reward-step" value="-1">
+                    </div>
+                    <div>
+                        <label for="reward-lava">Strafe für 'Lava' (Rot):</label>
+                        <input type="number" id="reward-lava" value="-100">
+                    </div>
+                    <div>
+                        <label for="reward-gold">Belohnung für 'Gold':</label>
+                        <input type="number" id="reward-gold" value="100">
+                    </div>
+                </div>
+                <button id="train-agent-button" class="btn">Training starten!</button>
+                <div id="training-progress" style="display: none;">
+                    <p>Training läuft... (simuliert Tausende von Versuchen)</p>
+                    <progress id="training-progress-bar" max="100" value="0"></progress>
+                </div>
+                
+                <div id="training-result" style="display: none;">
+                    <p>Training abgeschlossen! Der Agent hat eine 'Wissens-Karte' gelernt.</p>
+                    <div class="button-group">
+                        <button id="show-heatmap-button" class="btn btn-secondary">Gelernte 'Wissens-Karte' (Heatmap) anzeigen</button>
+                        <button id="show-path-button" class="btn">Optimalen Pfad anzeigen</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="post-experiment-box">
+                <h4>Verständnisfragen</h4>
+                <ul>
+                    <li>Was ist der Unterschied zwischen einer "Strafe" (z.B. -100 für Lava) und einer "Belohnung" (z.B. +100 für Gold)?</li>
+                    <li>Warum ist es wichtig, auch für einen normalen Schritt eine kleine negative Bestrafung (z.B. -1) zu geben? (Tipp: Was würde passieren, wenn Schritte 0 kosten?)</li>
+                    <li>Was bedeutet ein hellgrünes Feld auf der "Wissens-Karte" (Heatmap)?</li>
+                    <li><b>Vertiefende Frage 1:</b> Im Training läuft der Agent Tausende Male. Warum reicht es nicht, wenn er nur *einmal* zufällig das Gold findet? Warum muss er das so oft wiederholen?</li>
+                    <li><b>Vertiefende Frage 2:</b> Stell dir vor, du willst dem Agenten beibringen, *nicht* den kürzesten, sondern den *sichersten* Weg zu finden (der so weit wie möglich von der Lava entfernt ist). Wie müsstest du die Belohnungen anpassen?</li>
+                </ul>
+                </ul>
+                <div class="sources">
+                    <p><b>Vertiefende Quellen:</b></p>
+                    <ul>
+                        <li><a href="https://de.wikipedia.org/wiki/Verst%C3%A4rkendes_Lernen" target="_blank">Verstärkendes Lernen (Wikipedia)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

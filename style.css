@@ -1,0 +1,230 @@
+/* Globale Stile und Variablen */
+:root {
+    --color-primary: #007bff;
+    --color-primary-dark: #0056b3;
+    --color-secondary: #f4f7f6;
+    --color-background: #ffffff;
+    --color-text: #333;
+    --color-pass: #2ecc71; /* Grün für Lecker / Bestanden */
+    --color-fail: #e74c3c; /* Rot für Nicht Lecker / Durchgefallen */
+    --color-border: #ddd;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --border-radius: 8px;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+    margin: 0;
+    padding: 0;
+}
+
+/* Header und Navigation */
+header {
+    background-color: var(--color-background);
+    text-align: center;
+    padding: 2rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+h1 { color: var(--color-primary); margin: 0; }
+h2 {
+    margin: 0.25rem 0 1.5rem 0;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #555;
+}
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.nav-button {
+    font-family: var(--font-family);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    background-color: var(--color-background);
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.nav-button:hover { background-color: var(--color-secondary); border-color: #bbb; }
+.nav-button.active { background-color: var(--color-primary); color: white; border-color: var(--color-primary); }
+
+/* Allgemeines Modul-Layout */
+main { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+.module {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    background-color: var(--color-background);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+.module.active { display: grid; }
+.column { display: flex; flex-direction: column; gap: 1rem; }
+.column h3 {
+    margin: 0;
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary-dark);
+    padding-bottom: 0.5rem;
+}
+.explanation-box {
+    grid-column: 1 / -1;
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-top: 1rem;
+}
+.explanation-box h4 { margin-top: 0; }
+.explanation-box p { margin-bottom: 0.5rem; }
+.explanation-box p:last-child { margin-bottom: 0; }
+.explanation-box b { color: var(--color-primary-dark); }
+
+/* Globale Button-Stile */
+.btn {
+    font-family: var(--font-family);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--color-primary);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+}
+.btn:hover { background-color: var(--color-primary-dark); }
+.btn:disabled { background-color: #aaa; cursor: not-allowed; }
+.btn-secondary { background-color: #6c757d; }
+.btn-secondary:hover { background-color: #5a6268; }
+.button-group { display: flex; gap: 1rem; }
+
+/* --- Stile für Modul 1 (Bananen-Checker) --- */
+#banana-chart-container {
+    position: relative;
+    width: 100%;
+    height: 150px; 
+    background-color: var(--color-secondary);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    box-sizing: border-box; /* <-- DIESE ZEILE HINZUFÜGEN */
+}
+/* Farbverlauf-Hintergrund für die 1D-Achse */
+#bananaChart {
+    background: linear-gradient(to right, #61c419, #f7e400, #804d00);
+}
+
+#banana-labeling-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--color-secondary);
+    border-radius: var(--border-radius);
+}
+#banana-labeling-prompt {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0;
+}
+.btn-pass { background-color: var(--color-pass); }
+.btn-pass:hover { background-color: #27ae60; }
+.btn-fail { background-color: var(--color-fail); }
+.btn-fail:hover { background-color: #c0392b; }
+
+#banana-test-result {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+
+/* --- Modul 2: Musik-Entdecker --- */
+.chart-container { position: relative; width: 100%; height: 400px; }
+.slider-container {
+    padding: 1rem;
+    background-color: var(--color-secondary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+}
+input[type="range"] { width: 100%; cursor: pointer; }
+#cluster-analysis { margin-top: 1rem; font-style: italic; color: #555; }
+
+/* --- Modul 3: Robo-Finder --- */
+#grid-world {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    border: 2px solid #333;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+}
+.grid-cell {
+    width: 100%; height: 100%;
+    border: 1px solid var(--color-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    position: relative;
+    --heatmap-color: 0, 0%, 0%;
+    --heatmap-opacity: 0;
+}
+/* UPDATE: Heatmap-Farben (Grün/Violett) */
+#grid-world.heatmap-active .grid-cell::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* Farbschema: Grün (120) für gut, Violett (270) für schlecht */
+    background-color: hsla(var(--heatmap-color), var(--heatmap-opacity));
+    z-index: 1;
+    transition: background-color 0.3s ease;
+}
+.grid-cell-content { position: relative; z-index: 2; }
+.cell-start { background-color: #a9def9; }
+.cell-goal { background-color: #fcf6b1; }
+.cell-lava { background-color: #f08080; } /* Lava bleibt Rot */
+.cell-path { background-color: #b0f2c2; }
+.cell-path-agent {
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 50%;
+    width: 70%; height: 70%;
+    z-index: 10;
+    display: flex; justify-content: center; align-items: center;
+}
+.reward-inputs { display: flex; flex-direction: column; gap: 1rem; }
+.reward-inputs > div { display: flex; justify-content: space-between; align-items: center; }
+.reward-inputs label { font-weight: 500; }
+.reward-inputs input {
+    width: 80px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+#training-progress { width: 100%; }
+#training-progress-bar { width: 100%; }
+
+/* Responsive Design */
+@media (max-width: 800px) {
+    .module { grid-template-columns: 1fr; }
+    .button-group { flex-direction: column; }
+}
