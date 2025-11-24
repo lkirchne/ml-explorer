@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block 1 - Level 3 (Experten)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        h1 { font-size: 1.8em; }
+        .content { background: white; padding: 25px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .task { border-left: 4px solid #9c27b0; padding-left: 20px; margin: 20px 0; }
+        .task-number { font-size: 1.3em; font-weight: bold; color: #9c27b0; margin-bottom: 10px; }
+        .code-box {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .challenge-box {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            padding: 15px 15px 40px 15px;
+            margin: 15px 0 30px 0;
+            border-radius: 5px;
+        }
+        .challenge-title {
+            color: #7b1fa2;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .difficulty {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .medium { background: #ffe082; color: #f57c00; }
+        .hard { background: #ffcdd2; color: #c62828; }
+        .expert { background: #d1c4e9; color: #4a148c; }
+        .info-box { background: #e3f2fd; border-left: 4px solid #2196F3; padding: 15px; margin: 15px 0; }
+        .think-box { background: #f3e5f5; border-left: 4px solid #9c27b0; padding: 15px; margin: 15px 0; }
+        .checkbox-item { background: #f0f9ff; padding: 8px 12px; margin: 15px 0 30px 0; border-radius: 5px; border: 2px solid #e0e0e0; display: inline-block; }
+        .checkbox-item input[type="checkbox"] { margin-right: 10px; }
+        ul { margin-left: 20px; margin-top: 10px; }
+        li { margin: 5px 0; }
+        .copy-instruction {
+            background: #9c27b0;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+            margin-bottom: 0;
+            margin-top: 15px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Level 3: Q-Learning Experimente</h1>
+        <p>Für Schnelle - Kreative Challenges</p>
+    </div>
+
+    <div class="content">
+        <div class="info-box">
+            <strong>Level 3:</strong> Keine fertigen Lösungen mehr. Du experimentierst und bereitest Block 2 vor!
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 1: Verschiedene Belohnungen <span class="difficulty medium">Mittel</span></div>
+            <p><strong>Experiment:</strong> Wie beeinflussen Belohnungen das spätere Verhalten?</p>
+            
+            <p><strong>Teste 3 Varianten:</strong></p>
+            <ul>
+                <li><strong>Variante A:</strong> Normale Schritte kosten 0 statt -1</li>
+                <li><strong>Variante B:</strong> Wände geben -10 statt -1</li>
+                <li><strong>Variante C:</strong> Ziel gibt +50 statt +100</li>
+            </ul>
+            
+            <p><strong>Dokumentiere:</strong> Schreibe als Kommentar:</p>
+            <ul>
+                <li>Was ändert sich bei Variante A?</li>
+                <li>Was bei Variante B?</li>
+                <li>Was bei Variante C?</li>
+            </ul>
+            
+            <div class="think-box">
+                <strong>Überlegung:</strong> Wenn Schritte nichts kosten (0), warum sollte der Roboter dann schnell zum Ziel?
+                <br>Wenn Wände -10 geben, wird er sie mehr meiden?
+            </div>
+            
+            <label class="checkbox-item"><input type="checkbox"> 3 Belohnungs-Varianten getestet und dokumentiert</label>
+        </div>
+
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 2: Schlamm-Felder <span class="difficulty medium">Mittel</span></div>
+            <p><strong>Neue Feldart:</strong> Schlamm "~" - Schwieriges Gelände</p>
+            
+            <p><strong>Eigenschaften:</strong></p>
+            <ul>
+                <li>Roboter kann durchgehen (keine Wand)</li>
+                <li>Aber: Belohnung -5 (kostet viel Energie)</li>
+            </ul>
+            
+            <p><strong>Aufgaben:</strong></p>
+            <ol>
+                <li>Füge 2-3 "~" Felder ins Labyrinth ein</li>
+                <li>Erweitere deine if-elif-else Kette um Schlamm</li>
+                <li>Teste: Gibt es -5 Belohnung?</li>
+            </ol>
+            
+            <div class="think-box">
+                <strong>Q-Learning Frage:</strong> Wenn es zwei Wege gibt:
+                <ul>
+                    <li>Weg A: 5 normale Schritte (je -1) = -5</li>
+                    <li>Weg B: 3 Schritte, davon 1 Schlamm (-1, -5, -1) = -7</li>
+                </ul>
+                Welchen würde Q-Learning später wählen?
+            </div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Schlamm-Felder implementiert</label>
+        </div>
+
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 3: Q-Werte von Hand setzen <span class="difficulty hard">Schwer</span></div>
+            <p><strong>Ziel:</strong> Verstehen was Q-Learning später automatisch macht!</p>
+            
+            <p><strong>Vorgehen:</strong></p>
+            <ol>
+                <li>Nimm dein 4x4 Labyrinth</li>
+                <li>Starte beim Ziel (3,3): Setze alle 4 Werte auf 0</li>
+                <li>Felder neben Ziel: Beste Richtung = 99 (weil 100-1)</li>
+                <li>Arbeite dich rückwärts zum Start</li>
+                <li>Jedes Feld: max(Nachbar-Werte) - 1</li>
+            </ol>
+            
+            <p><strong>Beispiel:</strong></p>
+            <div class="code-box"># Position (3,2) ist links vom Ziel
+# Nach rechts (Index 3) führt zum Ziel
+q_tabelle[3][2][3] = 99  # Rechts ist beste Richtung
+
+# Position (3,1)
+# Nach rechts (Index 3) führt zu (3,2) mit Wert 99
+q_tabelle[3][1][3] = 98  # 99 - 1</div>
+            
+            <p><strong>Test:</strong> Folge immer dem höchsten Wert - kommst du zum Ziel?</p>
+            
+            <label class="checkbox-item"><input type="checkbox"> Q-Tabelle manuell gefüllt</label>
+        </div>
+
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 4: Greedy-Funktion <span class="difficulty hard">Schwer</span></div>
+            <p><strong>Aufgabe:</strong> Schreibe eine Funktion die die beste Richtung wählt</p>
+            
+            <div class="code-box">def waehle_beste_richtung(y, x):
+    """Gibt die beste Richtung zurück (0-3)"""
+    q_werte = q_tabelle[y][x]
+    
+    # Finde Index des höchsten Wertes
+    # Tipp: nutze .index() und max()
+    
+    beste_richtung = <span style="background: #ffffcc;">___DEIN CODE___</span>
+    return beste_richtung
+
+# Test
+richtung = waehle_beste_richtung(3, 1)
+print(f"Beste Richtung: {richtung}")</div>
+            
+            <p><strong>Test mit manueller Q-Tabelle:</strong> Findet die Funktion den Weg?</p>
+            
+            <label class="checkbox-item"><input type="checkbox"> Greedy-Funktion geschrieben</label>
+        </div>
+
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 5: Mehrere Labyrinthe <span class="difficulty medium">Mittel</span></div>
+            <p><strong>Ziel:</strong> Labyrinthe für Block 2 & 3 vorbereiten</p>
+            
+            <p><strong>Erstelle 3 Labyrinthe:</strong></p>
+            <ul>
+                <li><strong>Einfach:</strong> Direkter Weg, wenige Wände</li>
+                <li><strong>Mittel:</strong> Mehrere mögliche Wege</li>
+                <li><strong>Schwer:</strong> Komplexe Umwege nötig</li>
+            </ul>
+            
+            <p><strong>Speichere als:</strong></p>
+            <div class="code-box">labyrinth_einfach = [...]
+labyrinth_mittel = [...]
+labyrinth_schwer = [...]</div>
+            
+            <p><strong>Warum?</strong> In Block 3 testen wir Q-Learning auf allen!</p>
+            
+            <label class="checkbox-item"><input type="checkbox"> 3 Labyrinthe mit verschiedenen Schwierigkeiten</label>
+        </div>
+
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 6: Gamma vorbereiten <span class="difficulty hard">Schwer</span></div>
+            <p><strong>Vorbereitung für Block 2:</strong> Die Q-Learning Formel nutzt Gamma (γ)</p>
+            
+            <div class="info-box">
+                <strong>Q-Learning Update-Regel:</strong>
+                <br><code>neuer_wert = belohnung + gamma * max(q_tabelle[neue_y][neue_x])</code>
+                <br><br>
+                <strong>Gamma</strong> bestimmt wie wichtig die Zukunft ist (meist 0.9)
+            </div>
+            
+            <p><strong>Deine Aufgaben:</strong></p>
+            <ol>
+                <li>Erstelle Variable: <code>gamma = 0.9</code></li>
+                <li>Schreibe Funktion die max(Q-Werte) einer Position berechnet</li>
+            </ol>
+            
+            <div class="code-box">gamma = 0.9
+
+def berechne_max_q(y, x):
+    """Gibt höchsten Q-Wert einer Position zurück"""
+    return <span style="background: #ffffcc;">___DEIN CODE___</span>
+
+# Test
+max_wert = berechne_max_q(2, 2)
+print(f"Max Q-Wert bei (2,2): {max_wert}")</div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Gamma und Max-Q Funktion vorbereitet</label>
+        </div>
+
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 7: Kürzester Pfad (BFS) <span class="difficulty expert">Experte</span></div>
+            <p><strong>Für Profis:</strong> Berechne den optimalen Pfad ohne Q-Learning</p>
+            
+            <p><strong>Algorithmus:</strong> Breadth-First Search (BFS)</p>
+            
+            <p><strong>Warum?</strong> Um später zu vergleichen: Wie gut ist Q-Learning vs. Optimum?</p>
+            
+            <div class="think-box">
+                <strong>Recherchiere:</strong>
+                <ul>
+                    <li>Wie funktioniert BFS?</li>
+                    <li>Was ist eine Queue?</li>
+                    <li>Wie markiert man besuchte Felder?</li>
+                </ul>
+            </div>
+            
+            <p><strong>Ziel:</strong> Funktion die Länge des kürzesten Pfads zurückgibt</p>
+            
+            <div class="code-box">def finde_kuerzesten_pfad(labyrinth):
+    """Gibt Anzahl Schritte des kürzesten Wegs zurück"""
+    # Deine BFS Implementierung
+    pass
+
+# Test
+schritte = finde_kuerzesten_pfad(labyrinth)
+print(f"Kürzester Weg: {schritte} Schritte")</div>
+            
+            <label class="checkbox-item"><input type="checkbox"> BFS implementiert</label>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>Block 1 komplett abgeschlossen!</h2>
+        <p><strong>Level 3 geschafft bedeutet:</strong></p>
+        <ul>
+            <li>Du hast mit Belohnungen experimentiert</li>
+            <li>Neue Feldtypen implementiert</li>
+            <li>Q-Tabellen von Hand gefüllt</li>
+            <li>Greedy-Strategie programmiert</li>
+            <li>Mehrere Labyrinthe vorbereitet</li>
+            <li>Block 2 vorbereitet (Gamma)</li>
+            <li>(Optional) BFS Algorithmus implementiert</li>
+        </ul>
+        
+        <div class="info-box">
+            <strong>Nächster Schritt:</strong> Block 2 - Der Q-Learning Algorithmus!
+            <br>Dort werden wir die Update-Regel und Epsilon-Greedy programmieren.
+        </div>
+    </div>
+</body>
+</html>
