@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Level 1</title>
+    <title>Grundlagen - Labyrinth & Bewegung</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -111,7 +111,8 @@
 </head>
 <body>
     <div class="header">
-        <h1>Level 1</h1>
+        <h1>Grundlagen - Labyrinth & Bewegung</h1>
+        <p>Schritt-für-Schritt mit Eigenleistung</p>
     </div>
 
     <div class="content">
@@ -241,12 +242,29 @@ print("Q-Tabelle (0,0):", q_tabelle[0][0])</div>
 
         <div class="challenge-box">
             <div class="challenge-title">🎯 Challenge 3.1: Q-Werte verstehen</div>
-            <p><strong>Aufgabe:</strong> Schreibe Code der ausgibt:</p>
-            <ul>
-                <li>Alle 4 Werte von Position (2,2)</li>
-                <li>Nur den Wert für "Rechts" bei Position (1,1)</li>
-            </ul>
-            <p><strong>Tipp:</strong> "Rechts" hat Index 3</p>
+            
+            <div class="think-box">
+                <strong>Erinnerung:</strong> Die Q-Tabelle ist 3D!
+                <br><code>q_tabelle[y][x]</code> gibt dir eine Liste mit 4 Werten zurück: [Hoch, Runter, Links, Rechts]
+                <br><br>
+                <strong>Beispiel:</strong>
+                <br><code>q_tabelle[2][2]</code> → <code>[0.0, 0.0, 0.0, 0.0]</code>
+                <br><code>q_tabelle[2][2][3]</code> → <code>0.0</code> (nur der Wert für "Rechts")
+            </div>
+            
+            <p><strong>Aufgabe A:</strong> Gib alle 4 Werte von Position (2,2) aus</p>
+            <div class="copy-instruction">📋 Füge ans Ende hinzu</div>
+            <div class="code-box">print("Position (2,2), alle Werte:", q_tabelle[2][2])</div>
+            
+            <p><strong>Aufgabe B:</strong> Gib nur den Wert für "Rechts" bei Position (1,1) aus</p>
+            <div class="code-box">print("Position (1,1), nur Rechts:", q_tabelle[1][1][3])</div>
+            
+            <div class="info-box">
+                <strong>Warum steht da 0.0?</strong>
+                <br>Weil wir die Q-Tabelle mit Nullen initialisiert haben! Der Roboter weiß noch nichts.
+                <br>In Block 2 werden diese Werte durch Training größer (oder kleiner).
+            </div>
+            
             <label class="checkbox-item"><input type="checkbox"> Q-Zugriff verstanden</label>
         </div>
     </div>
@@ -266,24 +284,42 @@ print("Q-Tabelle (0,0):", q_tabelle[0][0])</div>
 
         <div class="challenge-box">
             <div class="challenge-title">🎯 Challenge 4.1: Position berechnen</div>
-            <p><strong>Situation:</strong> Roboter steht bei (2, 2)</p>
-            <p><strong>Aufgabe:</strong> Berechne die neue Position wenn er:</p>
-            <ul>
-                <li>Nach oben geht (Richtung 0)</li>
-                <li>Nach rechts geht (Richtung 3)</li>
-            </ul>
+            <p><strong>Situation:</strong> Roboter steht bei (2, 2) und will nach rechts (Richtung 3)</p>
+            
+            <div class="think-box">
+                <strong>Schritt 1:</strong> Was steht in <code>richtungen[3]</code>?
+                <br>Antwort: <code>(0, 1)</code> - Das bedeutet: y+0, x+1
+                <br><br>
+                <strong>Schritt 2:</strong> Entpacken mit <code>dy, dx = richtungen[3]</code>
+                <br>Jetzt ist: <code>dy = 0</code> und <code>dx = 1</code>
+                <br><br>
+                <strong>Schritt 3:</strong> Neue Position berechnen
+                <br>Roboter ist bei (2, 2). Er bewegt sich um dy in y-Richtung und um dx in x-Richtung.
+                <br>Wie berechnest du <code>neue_y</code> und <code>neue_x</code>?
+            </div>
             
             <div class="copy-instruction">📋 Füge nach den Richtungen hinzu</div>
-            <p><strong>Code-Gerüst:</strong></p>
+            <p><strong>Aufgabe:</strong> Vervollständige den Code</p>
             <div class="code-box">roboter_y = 2
 roboter_x = 2
-aktion = 0  # Hoch
+aktion = 3  # Rechts
 
+# Entpacken: Hole die Änderungen aus der Liste
 dy, dx = richtungen[aktion]
+
+# Berechne neue Position
 neue_y = <span class="gap">___BERECHNE___</span>
 neue_x = <span class="gap">___BERECHNE___</span>
 
-print(f"Neue Position: ({neue_y},{neue_x})")</div>
+print(f"Von ({roboter_y},{roboter_x}) nach ({neue_y},{neue_x})")
+print(f"dy war {dy}, dx war {dx}")</div>
+
+            <div class="info-box">
+                <strong>Teste auch andere Richtungen:</strong>
+                <br>Ändere <code>aktion = 0</code> (Hoch) oder <code>aktion = 2</code> (Links)
+                <br>Schau dir an wie sich dy und dx ändern!
+            </div>
+            
             <label class="checkbox-item"><input type="checkbox"> Position berechnet</label>
         </div>
     </div>
@@ -337,7 +373,7 @@ else:
             <li>Wände mit Schleifen gefunden</li>
             <li>Q-Tabelle verstanden und genutzt</li>
             <li>Bewegungslogik mit Lücken ergänzt</li>
-        </ul>        
+        </ul>       
         <div style="text-align: center; margin-top: 30px;">
             <a href="level2.html" style="display: inline-block; background: linear-gradient(135deg, #2196F3 0%, #1976d2 100%); color: white; padding: 15px 40px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1em;">Weiter zu Level 2</a>
         </div>
