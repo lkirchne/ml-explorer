@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block 1 - Level 2 (Standard)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #1976d2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        h1 { font-size: 1.8em; }
+        .content { background: white; padding: 25px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .task { border-left: 4px solid #2196F3; padding-left: 20px; margin: 20px 0; }
+        .task-number { font-size: 1.3em; font-weight: bold; color: #2196F3; margin-bottom: 10px; }
+        .code-box {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .challenge-box {
+            background: #e3f2fd;
+            border: 2px solid #2196F3;
+            padding: 15px 15px 40px 15px;
+            margin: 15px 0 30px 0;
+            border-radius: 5px;
+        }
+        .challenge-title {
+            color: #1976d2;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .gap {
+            background: #ffffcc;
+            padding: 2px 10px;
+            border: 2px dashed #ff9800;
+            font-weight: bold;
+        }
+        .test-box { background: #fff3e0; border-left: 4px solid #ff9800; padding: 15px; margin: 15px 0; }
+        .think-box { background: #f3e5f5; border-left: 4px solid #9c27b0; padding: 15px; margin: 15px 0; }
+        .info-box { background: #e3f2fd; border-left: 4px solid #2196F3; padding: 15px; margin: 15px 0; }
+        .warning-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; }
+        .checkbox-item { background: #f0f9ff; padding: 8px 12px; margin: 15px 0 30px 0; border-radius: 5px; border: 2px solid #e0e0e0; display: inline-block; }
+        .checkbox-item input[type="checkbox"] { margin-right: 10px; }
+        .next-level { background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%); color: white; padding: 20px; border-radius: 10px; margin-top: 30px; text-align: center; }
+        .btn { display: inline-block; background: white; color: #9c27b0; padding: 12px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 10px; }
+        ul { margin-left: 20px; margin-top: 10px; }
+        li { margin: 5px 0; }
+        .copy-instruction {
+            background: #2196F3;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+            margin-bottom: 0;
+            margin-top: 15px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Level 2: Eigene Lösungen entwickeln</h1>
+        <p>Weniger Hilfe - Mehr Eigenständigkeit</p>
+    </div>
+
+    <div class="content">
+        <div class="info-box">
+            <strong>In Level 2:</strong> Du bekommst weniger fertigen Code. Du musst mehr selbst überlegen und entwickeln!
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="task">
+            <div class="task-number">Voraussetzung</div>
+            <p>Du brauchst aus Level 1:</p>
+            <ul>
+                <li>Labyrinth (4x4)</li>
+                <li>Q-Tabelle</li>
+                <li>Richtungen</li>
+                <li>Bewegungsprüfung (mit Lücken)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 1: 5x5 Labyrinth</div>
+            
+            <div class="copy-instruction">📋 Ersetze das 4x4 Labyrinth in qlearning.py</div>
+            <p><strong>Aufgabe:</strong> Erstelle ein EIGENES 5x5 Labyrinth</p>
+            <p><strong>Anforderungen:</strong></p>
+            <ul>
+                <li>5 Zeilen, 5 Spalten</li>
+                <li>Start oben links (0,0)</li>
+                <li>Ziel unten rechts (4,4)</li>
+                <li>Mindestens 5 Wände</li>
+                <li>Mindestens einen möglichen Weg zum Ziel</li>
+            </ul>
+            
+            <div class="think-box">
+                <strong>Überlege:</strong>
+                <ul>
+                    <li>Wie viele Zeilen brauchst du in der Liste?</li>
+                    <li>Wie viele Elemente pro Zeile?</li>
+                    <li>Vergiss nicht die Kommas!</li>
+                </ul>
+            </div>
+            
+            <label class="checkbox-item"><input type="checkbox"> 5x5 Labyrinth erstellt</label>
+        </div>
+
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 2: Q-Tabelle anpassen</div>
+            <p><strong>Problem:</strong> Deine Q-Tabelle passt nur für 4x4!</p>
+            
+            <div class="copy-instruction">📋 Ändere die Q-Tabellen-Initialisierung</div>
+            <p><strong>Aufgabe:</strong> Passe sie für 5x5 an.</p>
+            
+            <div class="think-box">
+                <strong>Frage:</strong> Was muss in <code>range()</code> geändert werden?
+                <br>Wo im Code kommt <code>range(4)</code> vor?
+            </div>
+            
+            <div class="code-box"># Dein bisheriger Code:
+q_tabelle = []
+for y in range(4):  # <-- Was hier ändern?
+    zeile = []
+    for x in range(4):  # <-- Und hier?
+        zeile.append([0.0, 0.0, 0.0, 0.0])
+    q_tabelle.append(zeile)</div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Q-Tabelle auf 5x5 angepasst</label>
+        </div>
+
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 3: Flexible Bewegungsprüfung</div>
+            <p><strong>Problem:</strong> Deine Grenzen-Prüfung prüft auf 4, nicht 5!</p>
+            
+            <div class="copy-instruction">📋 Ändere die if-Bedingung für Grenzen</div>
+            <p><strong>Aufgabe:</strong> Mache sie flexibel für beliebige Größen</p>
+            
+            <div class="think-box">
+                <strong>Tipp:</strong> <code>len(labyrinth)</code> gibt Anzahl Zeilen
+                <br><code>len(labyrinth[0])</code> gibt Anzahl Spalten
+            </div>
+            
+            <p><strong>Ändere:</strong></p>
+            <div class="code-box"># Vorher (fest auf 4):
+if neue_y &lt; 0 or neue_y &gt;= 4 or neue_x &lt; 0 or neue_x &gt;= 4:
+
+# Nachher (flexibel):
+if neue_y &lt; 0 or neue_y &gt;= <span class="gap">___?___</span> or neue_x &lt; 0 or neue_x &gt;= <span class="gap">___?___</span>:</div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Flexible Größe funktioniert</label>
+        </div>
+
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 4: Alle Richtungen testen</div>
+            
+            <div class="copy-instruction">📋 Füge ans Ende von qlearning.py hinzu</div>
+            <p><strong>Aufgabe:</strong> Schreibe Code der ALLE 4 Richtungen testet</p>
+            <p><strong>Von Position (2,2) aus:</strong></p>
+            <ul>
+                <li>Teste Richtung 0 (Hoch)</li>
+                <li>Teste Richtung 1 (Runter)</li>
+                <li>Teste Richtung 2 (Links)</li>
+                <li>Teste Richtung 3 (Rechts)</li>
+            </ul>
+            
+            <p><strong>Nutze eine Schleife:</strong></p>
+            <div class="code-box">roboter_y = 2
+roboter_x = 2
+
+for aktion in range(<span class="gap">___?___</span>):
+    # Berechne neue Position
+    dy, dx = richtungen[aktion]
+    neue_y = <span class="gap">___?___</span>
+    neue_x = <span class="gap">___?___</span>
+    
+    # Prüfe Feld
+    # ... dein Code von Level 1 ...
+    
+    # Gib aus welche Richtung
+    richtung_name = ["Hoch", "Runter", "Links", "Rechts"][aktion]
+    print(f"{richtung_name}: ({neue_y},{neue_x}), Belohnung: {belohnung}")</div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Alle Richtungen getestet</label>
+        </div>
+
+        <div class="challenge-box">
+            <div class="challenge-title">🎯 Challenge 5: Visualisierung (BONUS)</div>
+            
+            <div class="copy-instruction">📋 Füge ans Ende hinzu (optional)</div>
+            <p><strong>Aufgabe:</strong> Zeige das Labyrinth mit Roboter-Position</p>
+            <p><strong>Idee:</strong> An der Roboter-Position "R" ausgeben statt des Felds</p>
+            
+            <div class="code-box">roboter_y = 2
+roboter_x = 2
+
+print("\nLabyrinth mit Roboter:")
+for y in range(len(labyrinth)):
+    for x in range(len(labyrinth[0])):
+        if <span class="gap">___ROBOTER HIER?___</span>:
+            print("R", end=" ")
+        else:
+            print(labyrinth[y][x], end=" ")
+    print()  # Neue Zeile</div>
+            
+            <div class="test-box">
+                <strong>Test:</strong> Ändere roboter_y und roboter_x - wandert das "R"?
+            </div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Visualisierung funktioniert</label>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>Level 2 geschafft!</h2>
+        <p><strong>Du hast eigenständig:</strong></p>
+        <ul>
+            <li>Ein 5x5 Labyrinth entwickelt</li>
+            <li>Code auf neue Größe angepasst</li>
+            <li>Flexible Grenzen-Prüfung gebaut</li>
+            <li>Systematische Tests geschrieben</li>
+            <li>(Optional) Visualisierung programmiert</li>
+        </ul>
+    </div>
+
+    <div class="next-level">
+        <h2>Bereit für Level 3?</h2>
+        <p>Level 3: Kreative Experimente und Optimierungen!</p>
+        <a href="level3.html" class="btn">Zu Level 3</a>
+    </div>
+</body>
+</html>

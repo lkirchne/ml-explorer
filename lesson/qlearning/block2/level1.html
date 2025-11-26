@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block 2 - Q-Learning Algorithmus</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            background: linear-gradient(135deg, #FF6B6B 0%, #E63946 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        h1 { font-size: 1.8em; }
+        .content { background: white; padding: 25px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .partner-box {
+            background: #fff9c4;
+            border: 3px solid #FBC02D;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .task { border-left: 4px solid #FF6B6B; padding-left: 20px; margin: 20px 0; }
+        .task-number { font-size: 1.3em; font-weight: bold; color: #FF6B6B; margin-bottom: 10px; }
+        .code-box {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .gap {
+            background: #ffffcc;
+            padding: 2px 10px;
+            border: 2px dashed #ff9800;
+            font-weight: bold;
+        }
+        .help-card {
+            background: #e8f5e9;
+            border: 2px solid #4CAF50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            display: none;
+        }
+        .help-card.visible {
+            display: block;
+        }
+        .help-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .help-btn:hover {
+            background: #45a049;
+        }
+        .think-box { background: #f3e5f5; border-left: 4px solid #9c27b0; padding: 15px; margin: 15px 0; }
+        .info-box { background: #e3f2fd; border-left: 4px solid #2196F3; padding: 15px; margin: 15px 0; }
+        .warning-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; }
+        .algorithm-box {
+            background: #fff;
+            border: 3px solid #FF6B6B;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .step {
+            padding: 12px;
+            margin: 10px 0;
+            border-left: 4px solid #ddd;
+            border-radius: 3px;
+            background: #f8f9fa;
+        }
+        .algorithm-context {
+            display: block;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 4px solid #4CAF50;
+            padding: 10px 15px;
+            margin: 0 auto 15px auto;
+            max-width: 900px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .algorithm-context.visible {
+            display: block;
+        }
+        .algorithm-context strong {
+            color: #2e7d32;
+        }
+        
+        /* Seitliche Algo-Sidebar */
+        .algo-sidebar {
+            position: fixed;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            background: white;
+            border: 2px solid #FF6B6B;
+            border-radius: 10px;
+            padding: 10px 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 99;
+            display: none;
+        }
+        .algo-sidebar.visible {
+            display: block;
+        }
+        .algo-sidebar-title {
+            font-size: 0.7em;
+            font-weight: bold;
+            text-align: center;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .algo-step-mini {
+            font-size: 0.7em;
+            padding: 6px 4px;
+            margin: 4px 0;
+            background: #f8f9fa;
+            border-left: 3px solid #ddd;
+            border-radius: 3px;
+            text-align: left;
+            transition: all 0.3s;
+        }
+        .algo-step-mini.active {
+            background: #FF6B6B;
+            color: white;
+            border-left-color: #E63946;
+            font-weight: bold;
+            transform: scale(1.05);
+        }
+        .algo-step-mini.completed {
+            background: #e8f5e9;
+            border-left-color: #4CAF50;
+        }
+        .algo-step-mini.completed.active {
+            background: #4CAF50;
+            color: white;
+            border-left-color: #2e7d32;
+        }
+        @media (max-width: 1200px) {
+            .algo-sidebar {
+                display: none !important; /* Auf schmalen Screens ausblenden */
+            }
+        }
+        .checkpoint {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .self-check-box {
+            background: #e8f5e9;
+            border: 3px solid #4CAF50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .self-check-box h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        .self-check-box ol {
+            margin-left: 25px;
+        }
+        .self-check-box li {
+            margin: 8px 0;
+        }
+        .progress-tracker {
+            background: rgba(245, 245, 245, 0.95);
+            border-bottom: 2px solid #9e9e9e;
+            padding: 4px 10px;
+            border-radius: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: none;
+            animation: slideDown 0.3s ease-out;
+            text-align: center;
+        }
+        .progress-tracker.visible {
+            display: block;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .progress-tracker h3 {
+            display: none; /* Keine Überschrift */
+        }
+        .progress-steps {
+            display: inline-flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 0 auto;
+        }
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+            cursor: default;
+        }
+        .progress-step.completed .step-circle {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+        }
+        .progress-step.viewing .step-circle {
+            background: #FF6B6B;
+            border-color: #FF6B6B;
+            color: white;
+            transform: scale(1.15);
+            box-shadow: 0 2px 8px rgba(255,107,107,0.4);
+        }
+        .progress-step.viewing .step-name {
+            color: #FF6B6B;
+            font-weight: bold;
+        }
+        .step-circle {
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .step-number {
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+        .step-name {
+            font-size: 0.75em;
+            color: #666;
+            white-space: nowrap;
+        }
+        .progress-step.completed .step-name {
+            color: #2e7d32;
+            font-weight: 500;
+        }
+        @media (max-width: 1024px) {
+            .progress-tracker {
+                padding: 3px 8px;
+            }
+            .progress-steps {
+                gap: 10px;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 2px 0;
+            }
+            .step-circle {
+                width: 22px;
+                height: 22px;
+            }
+            .step-number {
+                font-size: 0.7em;
+            }
+            .step-name {
+                font-size: 0.7em;
+            }
+        }
+        .checkbox-item { background: #f0f9ff; padding: 8px 12px; margin: 15px 0 30px 0; border-radius: 5px; border: 2px solid #e0e0e0; display: inline-block; }
+        .checkbox-item input[type="checkbox"] { margin-right: 10px; }
+        .copy-instruction {
+            background: #FF6B6B;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+            margin-bottom: 0;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        ul, ol { margin-left: 20px; margin-top: 10px; }
+        li { margin: 5px 0; }
+        
+        /* Code-Links für Erklärungen */
+        .code-link {
+            color: #2196F3;
+            text-decoration: underline;
+            cursor: pointer;
+            background: #e3f2fd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .code-link:hover {
+            background: #bbdefb;
+        }
+        
+        /* Modal für Erklärungen */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            overflow: auto;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 700px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+        }
+        .close-modal:hover {
+            color: #000;
+        }
+        
+        /* iPad Optimierung */
+        @media (max-width: 1024px) {
+            body {
+                padding: 15px;
+            }
+            .modal-content {
+                margin: 10% auto;
+                padding: 20px;
+            }
+            .code-box {
+                font-size: 0.85em;
+            }
+            .help-btn, .checkbox-item {
+                font-size: 16px; /* Verhindert Zoom auf iOS */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Block 2: Der Q-Learning Algorithmus</h1>
+        <p>Wie lernt der Roboter? - Genau wie beim Papierspiel!</p>
+    </div>
+
+    <div class="content">
+        <h2>Vom Papierspiel zum Computer</h2>
+        
+        <div class="info-box">
+            <strong>Erinnerung ans Papierspiel:</strong>
+            <ul>
+                <li>Ihr habt gewürfelt um neue Wege zu erkunden</li>
+                <li>Die letzte Kreuzung wurde geupdatet: max(Nachbarn) - 1</li>
+                <li>Sackgassen bekamen -1</li>
+            </ul>
+        </div>
+        
+        <div class="warning-box">
+            <strong>Unterschied am Computer:</strong>
+            <br>Am Computer updaten wir <strong>jeden Schritt</strong>, nicht nur den letzten!
+            <br><br>
+            <strong>Warum?</strong> 
+            <ul>
+                <li>Auf Papier: Zu viel Schreibarbeit → Nur letzter Schritt</li>
+                <li>Am Computer: Schnell und einfach → Alle Schritte</li>
+                <li>Ergebnis: Roboter lernt viel schneller!</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>So lernt der Roboter - Der Ablauf</h2>
+        
+        <div class="algorithm-box">
+            <div class="step">
+                <strong>1. START</strong> - Roboter steht auf Startfeld S
+            </div>
+            
+            <div class="step">
+                <strong>2. ERKUNDEN</strong> - Würfle alle 4 Richtungen (0-10), Wände = -inf<br>
+                <span style="color: #666; font-size: 0.9em;">→ Funktion: wuerfle_richtungen()</span>
+            </div>
+            
+            <div class="step">
+                <strong>3. ENTSCHEIDEN</strong> - Gehe in Richtung mit höchstem Wert<br>
+                <span style="color: #666; font-size: 0.9em;">→ Funktion: waehle_beste_richtung()</span>
+            </div>
+            
+            <div class="step">
+                <strong>4. PRÜFEN</strong> - Neues Feld schon besucht? (Alle Q-Werte = 0.0?)<br>
+                <span style="color: #666; font-size: 0.9em;">→ Funktion: ist_unbesucht()</span><br>
+                <span style="color: #666; font-size: 0.85em; margin-left: 20px;">• JA → Würfle dort</span><br>
+                <span style="color: #666; font-size: 0.85em; margin-left: 20px;">• NEIN → Nutze Werte</span>
+            </div>
+            
+            <div class="step">
+                <strong>5. LERNEN</strong> - Update das alte Feld: Q_alt = max(Q_neu) - 1<br>
+                <span style="color: #666; font-size: 0.9em;">→ Funktion: update_q_wert()</span>
+            </div>
+            
+            <div class="step">
+                <strong>6. ZIEL?</strong> - Erreicht? → Update & neu starten, sonst weiter bei 3
+            </div>
+            
+            <div class="step">
+                <strong>∞ TRAINING</strong> - Das Ganze 1000x wiederholen<br>
+                <span style="color: #666; font-size: 0.9em;">→ Funktion: eine_episode()</span>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <strong>Das ist GENAU wie euer Papierspiel!</strong>
+            <br>Nur dass der Computer es 1000x wiederholt und schneller lernt.
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="partner-box">
+            <h3>Partnerarbeit: Algorithmus verstehen (5 Min)</h3>
+            <p><strong>Diskutiert:</strong></p>
+            <ol>
+                <li>Warum würfeln wir nur bei neuen Feldern?</li>
+                <li>Warum -inf für Wände?</li>
+                <li>Warum updaten wir das ALTE Feld, nicht das neue?</li>
+            </ol>
+            
+            <button class="help-btn" onclick="toggleHelp('help-algo')">Hilfe anzeigen</button>
+            <div class="help-card" id="help-algo">
+                <ol>
+                    <li><strong>Würfeln bei neuen Feldern:</strong> Wir wissen noch nichts über diese Position, also probieren wir zufällig aus.</li>
+                    <li><strong>-inf für Wände:</strong> Damit der Roboter sie NIEMALS wählt, egal was passiert.</li>
+                    <li><strong>Update altes Feld:</strong> Wir bewerten die ENTSCHEIDUNG von dort wegzugehen. Die Frage ist: "War es gut, von dort hierher zu gehen?"</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Tracker (wird nach Aufgabe 1 eingeblendet) -->
+    <div class="progress-tracker" id="progressTracker">
+        <div class="progress-steps">
+            <div class="progress-step" id="step1">
+                <div class="step-circle">
+                    <div class="step-number">1</div>
+                </div>
+                <div class="step-name">Würfeln</div>
+            </div>
+            <div class="progress-step" id="step2">
+                <div class="step-circle">
+                    <div class="step-number">2</div>
+                </div>
+                <div class="step-name">Beste Richtung</div>
+            </div>
+            <div class="progress-step" id="step3">
+                <div class="step-circle">
+                    <div class="step-number">3</div>
+                </div>
+                <div class="step-name">Prüfe besucht</div>
+            </div>
+            <div class="progress-step" id="step4">
+                <div class="step-circle">
+                    <div class="step-number">4</div>
+                </div>
+                <div class="step-name">Update</div>
+            </div>
+            <div class="progress-step" id="step5">
+                <div class="step-circle">
+                    <div class="step-number">5</div>
+                </div>
+                <div class="step-name">Episode</div>
+            </div>
+            <div class="progress-step" id="step6">
+                <div class="step-circle">
+                    <div class="step-number">6</div>
+                </div>
+                <div class="step-name">Test</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamische Kontext-Box (zeigt wo man im Algorithmus ist) -->
+    <div class="content">
+        <div class="algorithm-context" id="algorithmContext">
+            <span id="contextText">📍 Beginne mit Aufgabe 1 um deinen Fortschritt zu sehen!</span>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="task">
+            <div class="task-number">Aufgabe 1: Würfel-Funktion</div>
+            
+            <div class="partner-box">
+                <h3>Partnerarbeit: Plant die Funktion</h3>
+                <p><strong>Was muss die Funktion tun?</strong></p>
+                <ol>
+                    <li>Für jede Richtung (0-3): Berechne Zielposition</li>
+                    <li>Ist Ziel außerhalb oder Wand? → Setze auf -inf</li>
+                    <li>Sonst: Würfle Zufallswert zwischen 0 und 10</li>
+                </ol>
+            
+            <div class="copy-instruction">Füge diese Funktion hinzu</div>
+            <div class="code-box">def ist_unbesucht(y, x):
+    """Prüft ob Feld noch nicht besucht wurde"""
+    # Gehe durch alle 4 Richtungen (0, 1, 2, 3)
+    for i in range(4):
+        if q_tabelle[y][x][i] != 0.0:
+            # Mindestens ein Wert ist nicht 0
+            return False
+    # Alle Werte sind 0
+    return True</div>
+            
+            <div class="think-box">
+                <strong>Wie funktioniert das?</strong>
+                <ul>
+                    <li>Schleife geht durch Index 0, 1, 2, 3 (die 4 Richtungen)</li>
+                    <li>Prüft jeden Wert: <code>q_tabelle[y][x][0]</code>, dann <code>[1]</code>, usw.</li>
+                    <li>Sobald einer nicht 0.0 ist: <code>return False</code> (wurde besucht)</li>
+                    <li>Wenn Schleife durchläuft ohne return: Alle sind 0 → <code>return True</code></li>
+                </ul>
+            </div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Prüf-Funktion hinzugefügt</label>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="task">
+            <div class="task-number">Aufgabe 2: Würfel-Funktion</div>
+            
+            <div class="partner-box">
+                <h3>Partnerarbeit: Plant die Funktion</h3>
+                <p><strong>Was muss die Funktion tun?</strong></p>
+                <ol>
+                    <li>Für jede Richtung (0-3): Berechne Zielposition</li>
+                    <li>Ist Ziel außerhalb oder Wand? → Setze auf -inf</li>
+                    <li>Sonst: Würfle Zufallswert zwischen 0 und 10</li>
+                </ol>
+                
+                <button class="help-btn" onclick="toggleHelp('help2')">Hilfe: Gerüst</button>
+                <div class="help-card" id="help2">
+                    <div class="code-box">import random
+
+def wuerfle_richtungen(y, x):
+    """Würfelt Q-Werte für alle 4 Richtungen"""
+    for aktion in range(4):
+        dy, dx = richtungen[aktion]
+        neue_y = y + dy
+        neue_x = x + dx
+        
+        # Prüfe Grenzen und Wand
+        if <span class="gap">___BEDINGUNG___</span>:
+            q_tabelle[y][x][aktion] = float('-inf')
+        else:
+            q_tabelle[y][x][aktion] = random.randint(0, 10)</div>
+                </div>
+                
+                <button class="help-btn" onclick="toggleHelp('help2-grenzen')">Hilfe: Wie prüfe ich Grenzen?</button>
+                <div class="help-card" id="help2-grenzen">
+                    <strong>Schritt für Schritt:</strong>
+                    
+                    <p><strong>1. Ist neue_y zu klein?</strong> (oben raus)</p>
+                    <div class="code-box">if neue_y &lt; 0:</div>
+                    
+                    <p><strong>2. Ist neue_y zu groß?</strong> (unten raus)</p>
+                    <div class="code-box">if neue_y &gt;= len(labyrinth):  # >= weil Index bei 0 startet!
+# Beispiel: labyrinth hat 4 Zeilen (Index 0,1,2,3)
+# len(labyrinth) = 4
+# neue_y = 4 wäre außerhalb!</div>
+                    
+                    <p><strong>3. Ist neue_x zu klein?</strong> (links raus)</p>
+                    <div class="code-box">if neue_x &lt; 0:</div>
+                    
+                    <p><strong>4. Ist neue_x zu groß?</strong> (rechts raus)</p>
+                    <div class="code-box">if neue_x &gt;= len(labyrinth[0]):  # [0] = erste Zeile
+# Zähle Spalten in erster Zeile</div>
+                    
+                    <p><strong>5. Ist dort eine Wand?</strong></p>
+                    <div class="code-box">if labyrinth[neue_y][neue_x] == "#":</div>
+                    
+                    <p><strong>Alles mit OR verbinden:</strong></p>
+                    <div class="code-box">if (neue_y &lt; 0 or neue_y &gt;= len(labyrinth) or 
+    neue_x &lt; 0 or neue_x &gt;= len(labyrinth[0]) or
+    labyrinth[neue_y][neue_x] == "#"):</div>
+                </div>
+                
+                <button class="help-btn" onclick="toggleHelp('help2b')">Hilfe: Komplette Lösung</button>
+                <div class="help-card" id="help2b">
+                    <div class="code-box">import random
+
+def wuerfle_richtungen(y, x):
+    """Würfelt Q-Werte für alle 4 Richtungen"""
+    for aktion in range(4):
+        dy, dx = richtungen[aktion]
+        neue_y = y + dy
+        neue_x = x + dx
+        
+        # Außerhalb oder Wand?
+        if (neue_y &lt; 0 or neue_y &gt;= len(labyrinth) or 
+            neue_x &lt; 0 or neue_x &gt;= len(labyrinth[0]) or
+            labyrinth[neue_y][neue_x] == "#"):
+            q_tabelle[y][x][aktion] = float('-inf')
+        else:
+            # Zufallszahl zwischen 0 und 10
+            q_tabelle[y][x][aktion] = random.randint(0, 10)</div>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <strong>Python-Funktionen im Code:</strong><br>
+                <span class="code-link" onclick="showModal('modal-random')">random.randint()</span> - 
+                <span class="code-link" onclick="showModal('modal-inf')">float('-inf')</span> - 
+                <span class="code-link" onclick="showModal('modal-len')">len()</span>
+            </div>
+            
+            <div class="warning-box">
+                <strong>WICHTIG:</strong> Ganz oben in deiner Datei muss stehen:<br>
+                <code>import random</code>
+            </div>
+            
+            <div class="copy-instruction">Füge die Funktion hinzu</div>
+            <p><strong>Schreibt sie gemeinsam!</strong></p>
+            
+            <label class="checkbox-item"><input type="checkbox"> Würfel-Funktion geschrieben</label>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="task">
+            <div class="task-number">Aufgabe 3: Beste Richtung wählen</div>
+            
+            <div class="info-box">
+                <strong>Aufgabe:</strong> Finde die Richtung mit dem höchsten Q-Wert
+            </div>
+            
+            <div class="copy-instruction">Füge hinzu</div>
+            <div class="code-box">def waehle_beste_richtung(y, x):
+    """Gibt Richtung mit höchstem Q-Wert zurück"""
+    q_werte = q_tabelle[y][x]
+    # Finde höchsten Wert
+    hoechster_wert = max(q_werte)
+    # Finde Index (Position) davon
+    return q_werte.index(hoechster_wert)</div>
+            
+            <div class="info-box">
+                <strong>Python-Funktionen im Code:</strong><br>
+                <span class="code-link" onclick="showModal('modal-max')">max()</span> - 
+                <span class="code-link" onclick="showModal('modal-index')">list.index()</span>
+            </div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Richtungs-Funktion hinzugefügt</label>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="task">
+            <div class="task-number">Aufgabe 4: Update-Funktion</div>
+            
+            <div class="warning-box">
+                <strong>WICHTIG:</strong> Diese Funktion updated das ALTE Feld!<br>
+                <code>Q[alt_y][alt_x][aktion] = max(Q[neu_y][neu_x]) - 1</code>
+            </div>
+            
+            <div class="partner-box">
+                <h3>Partnerarbeit: Was brauchen wir?</h3>
+                <p><strong>Parameter:</strong></p>
+                <ul>
+                    <li>Alte Position (y, x)</li>
+                    <li>Welche Richtung (aktion)</li>
+                    <li>Neue Position (neue_y, neue_x)</li>
+                </ul>
+                
+                <button class="help-btn" onclick="toggleHelp('help4')">Komplette Lösung</button>
+                <div class="help-card" id="help4">
+                    <div class="code-box">def update_q_wert(y, x, aktion, neue_y, neue_x):
+    """Updated Q-Wert des ALTEN Feldes"""
+    # Finde Maximum der neuen Position
+    max_q_neu = max(q_tabelle[neue_y][neue_x])
+    
+    # Update: max(neu) - 1 (wie beim Papierspiel!)
+    q_tabelle[y][x][aktion] = max_q_neu - 1
+    
+    print(f"Update: ({y},{x}) → ({neue_y},{neue_x}): {max_q_neu - 1:.1f}")</div>
+                </div>
+            </div>
+            
+            <div class="copy-instruction">Füge die Update-Funktion hinzu</div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Update-Funktion geschrieben</label>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="self-check-box">
+            <h3>Selbst-Check: Funktionieren deine Funktionen?</h3>
+            <p><strong>Teste deine Funktionen bevor du weitermachst:</strong></p>
+            <ol>
+                <li>Rufe <code>ist_unbesucht(0, 0)</code> auf - gibt es <code>True</code>?</li>
+                <li>Rufe <code>wuerfle_richtungen(0, 0)</code> auf - sind die Werte nicht mehr 0.0?</li>
+                <li>Rufe <code>waehle_beste_richtung(0, 0)</code> - gibt es eine Zahl 0-3?</li>
+                <li>Schau in <code>q_tabelle[0][0]</code> - siehst du die gewürfelten Werte?</li>
+            </ol>
+            <p><strong>Alles funktioniert?</strong> Weiter zu Aufgabe 5!</p>
+            <p><strong>Fehler?</strong> Frag deinen Partner oder den Lehrer.</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="task">
+            <div class="task-number">Aufgabe 5: Eine Episode (Ein Durchlauf)</div>
+            
+            <div class="info-box">
+                <strong>Jetzt kommt alles zusammen!</strong> Eine Episode = Vom Start bis zum Ziel
+            </div>
+            
+            <div class="partner-box">
+                <h3>Partnerarbeit: Plant den Code (10 Min)</h3>
+                <p><strong>Pseudo-Code:</strong></p>
+                <pre style="background: #f8f9fa; padding: 10px; border-radius: 5px;">
+1. Finde Start-Position im Labyrinth
+2. Würfle Richtungen am Start
+
+3. WHILE nicht am Ziel:
+   a) Wähle beste Richtung
+   b) Berechne neue Position
+   c) Sind dort alle Q-Werte 0.0? (= unbesucht)
+      JA: Würfle dort Richtungen
+      NEIN: Nutze existierende Werte
+   d) Update das alte Feld
+   e) Bewege Roboter (alte ← neue)</pre>
+                
+                <button class="help-btn" onclick="toggleHelp('help5')">Hilfe: Code-Gerüst</button>
+                <div class="help-card" id="help5">
+                    <div class="code-box">def eine_episode():
+    """Ein Durchlauf vom Start zum Ziel"""
+    # Finde Start
+    for y in range(len(labyrinth)):
+        for x in range(len(labyrinth[0])):
+            if labyrinth[y][x] == "S":
+                start_y, start_x = y, x
+                break
+    
+    # Würfle am Start
+    wuerfle_richtungen(start_y, start_x)
+    
+    # Aktuelle Position
+    y, x = start_y, start_x
+    schritte = 0
+    
+    while labyrinth[y][x] != "Z" and schritte &lt; 100:
+        # Beste Richtung wählen
+        aktion = <span class="gap">___?___</span>
+        
+        # Neue Position berechnen
+        dy, dx = richtungen[aktion]
+        neue_y = y + dy
+        neue_x = x + dx
+        
+        # Noch nicht besucht? (Alle Q-Werte = 0.0?)
+        if <span class="gap">___?___</span>:
+            wuerfle_richtungen(neue_y, neue_x)
+        
+        # Update altes Feld
+        update_q_wert(y, x, aktion, neue_y, neue_x)
+        
+        # Bewege Roboter
+        y, x = neue_y, neue_x
+        schritte += 1</div>
+                </div>
+                
+                <button class="help-btn" onclick="toggleHelp('help5b')">Hilfe: Komplette Lösung</button>
+                <div class="help-card" id="help5b">
+                    <div class="code-box">def eine_episode():
+    """Ein Durchlauf vom Start zum Ziel"""
+    # Finde Start
+    for y in range(len(labyrinth)):
+        for x in range(len(labyrinth[0])):
+            if labyrinth[y][x] == "S":
+                start_y, start_x = y, x
+                break
+    
+    # Würfle am Start
+    wuerfle_richtungen(start_y, start_x)
+    
+    # Aktuelle Position
+    y, x = start_y, start_x
+    schritte = 0
+    
+    while labyrinth[y][x] != "Z" and schritte &lt; 100:
+        # Beste Richtung wählen
+        aktion = waehle_beste_richtung(y, x)
+        
+        # Neue Position berechnen
+        dy, dx = richtungen[aktion]
+        neue_y = y + dy
+        neue_x = x + dx
+        
+        # Noch nicht besucht? (Alle Q-Werte = 0.0?)
+        if ist_unbesucht(neue_y, neue_x):
+            wuerfle_richtungen(neue_y, neue_x)
+        
+        # Update altes Feld
+        update_q_wert(y, x, aktion, neue_y, neue_x)
+        
+        # Bewege Roboter
+        y, x = neue_y, neue_x
+        schritte += 1
+    
+    print(f"Ziel erreicht nach {schritte} Schritten!")</div>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <strong>Wichtig:</strong> <code>schritte &lt; 100</code> verhindert Endlosschleifen!
+            </div>
+            
+            <div class="info-box">
+                <strong>Python-Funktionen im Code:</strong><br>
+                <span class="code-link" onclick="showModal('modal-break')">break</span> - 
+                <span class="code-link" onclick="showModal('modal-tuple')">Mehrfach-Zuweisung (y, x = ...)</span>
+            </div>
+            
+            <div class="copy-instruction">Schreibt die Funktion zusammen!</div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Episode-Funktion geschrieben</label>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="task">
+            <div class="task-number">Aufgabe 6: Erste Episode testen</div>
+            
+            <div class="copy-instruction">Teste deine Episode</div>
+            <div class="code-box"># Test: Eine Episode
+print("--- ERSTE EPISODE ---")
+eine_episode()
+
+# Zeige Q-Tabelle vom Start
+for y in range(len(labyrinth)):
+    for x in range(len(labyrinth[0])):
+        if labyrinth[y][x] == "S":
+            print(f"\nQ-Werte am Start: {q_tabelle[y][x]}")</div>
+            
+            <div class="info-box">
+                <strong>Was du sehen solltest:</strong><br>
+                - "Ziel erreicht nach X Schritten!"<br>
+                - Updates entlang des Weges<br>
+                - Q-Werte am Start sind nicht mehr alle gewürfelt
+            </div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Erste Episode erfolgreich!</label>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>Block 2 geschafft!</h2>
+        <div class="info-box">
+            <strong>Ihr habt jetzt:</strong>
+            <ul>
+                <li>Den Algorithmus vom Papierspiel programmiert</li>
+                <li>Würfel-Funktion für neue Felder</li>
+                <li>Update-Funktion (max - 1)</li>
+                <li>Eine komplette Episode</li>
+            </ul>
+            <strong>In Block 3:</strong> Viele Episoden (Training) und den gelernten Weg anzeigen!
+        </div>
+    </div>
+
+    <!-- Modals für Python-Erklärungen -->
+    
+    <div id="modal-random" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('modal-random')">&times;</span>
+            <h2>random.randint()</h2>
+            
+            <p><strong>Import:</strong> <code>import random</code> am Anfang der Datei</p>
+            
+            <p><strong>Was macht randint()?</strong></p>
+            <p><code>random.randint(0, 10)</code> gibt eine <strong>zufällige ganze Zahl</strong> zwischen 0 und 10 zurück.</p>
+            
+            <p><strong>Beispiele:</strong></p>
+            <ul>
+                <li><code>5</code></li>
+                <li><code>0</code></li>
+                <li><code>10</code></li>
+                <li><code>7</code></li>
+            </ul>
+            
+            <p><strong>Wichtig:</strong> Beide Grenzen sind <strong>inklusive</strong>!</p>
+            <div class="code-box">random.randint(0, 10)
+# Gibt zurück: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+# Insgesamt 11 mögliche Zahlen!</div>
+            
+            <p><strong>Warum 0 bis 10?</strong> Anfangs weiß der Roboter nichts, also geben wir ihm zufällige Startwerte zum Ausprobieren.</p>
+            
+            <p style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd;">
+                <strong>Mehr Infos:</strong> 
+                <a href="https://docs.python.org/3/library/random.html#random.randint" target="_blank" style="color: #2196F3;">Python Dokumentation zu random.randint()</a>
+            </p>
+        </div>
+    </div>
+    
+    <div id="modal-inf" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('modal-inf')">&times;</span>
+            <h2>float('-inf')</h2>
+            
+            <p><strong>-inf</strong> = Minus Unendlich (Infinity)</p>
+            
+            <p><strong>Was bedeutet das?</strong></p>
+            <p>Eine Zahl, die <strong>kleiner als ALLE anderen Zahlen</strong> ist!</p>
+            
+            <p><strong>Vergleiche:</strong></p>
+            <div class="code-box">float('-inf') &lt; -9999999  # True
+float('-inf') &lt; -1000000  # True
+float('-inf') &lt; 0         # True
+max([5, 10, float('-inf'), 3])  # 10 (nicht -inf!)</div>
+            
+            <p><strong>Warum nutzen wir das?</strong></p>
+            <p>Wände sollen <strong>NIEMALS</strong> gewählt werden, egal wie schlecht andere Optionen sind!</p>
+            
+            <p><strong>Beispiel:</strong></p>
+            <div class="code-box">q_werte = [-5, -10, float('-inf'), -8]
+max(q_werte)  # -5 (nicht -inf!)
+# Der Roboter wählt -5, obwohl auch das schlecht ist
+# Aber niemals -inf (die Wand)</div>
+        </div>
+    </div>
+    
+    <div id="modal-len" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('modal-len')">&times;</span>
+            <h2>len()</h2>
+            
+            <p><strong>Was macht len()?</strong></p>
+            <p><code>len(liste)</code> gibt die <strong>Anzahl der Elemente</strong> zurück.</p>
+            
+            <p><strong>Beispiele:</strong></p>
+            <div class="code-box">len([1, 2, 3, 4])      # 4
+len("Hallo")          # 5
+len([[1,2], [3,4]])   # 2 (zwei Listen)</div>
+            
+            <p><strong>Beim Labyrinth:</strong></p>
+            <div class="code-box">labyrinth = [
+    ["S", ".", "."],
+    ["#", ".", "."],
+    [".", ".", "Z"]
+]
+
+len(labyrinth)     # 3 (drei Zeilen)
+len(labyrinth[0])  # 3 (drei Spalten in erster Zeile)</div>
+            
+            <p><strong>Warum [0]?</strong> Wir nehmen die erste Zeile um zu zählen wie viele Spalten es gibt.</p>
+            
+            <p style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd;">
+                <strong>Mehr Infos:</strong> 
+                <a href="https://docs.python.org/3/library/functions.html#len" target="_blank" style="color: #2196F3;">Python Dokumentation zu len()</a>
+            </p>
+        </div>
+    </div>
+    
+    <div id="modal-max" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('modal-max')">&times;</span>
+            <h2>max()</h2>
+            
+            <p><strong>Was macht max()?</strong></p>
+            <p><code>max(liste)</code> gibt den <strong>größten Wert</strong> zurück.</p>
+            
+            <p><strong>Beispiele:</strong></p>
+            <div class="code-box">max([5, 10, 3, 8])     # 10
+max([0.5, 0.2, 0.9])  # 0.9
+max([-5, -2, -10])    # -2 (am wenigsten negativ)</div>
+            
+            <p><strong>Beim Q-Learning:</strong></p>
+            <div class="code-box">q_werte = [3.5, 7.2, 2.1, 8.9]
+max(q_werte)  # 8.9 (beste Richtung hat Wert 8.9)</div>
+            
+            <p style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd;">
+                <strong>Mehr Infos:</strong> 
+                <a href="https://docs.python.org/3/library/functions.html#max" target="_blank" style="color: #2196F3;">Python Dokumentation zu max()</a>
+            </p>
+        </div>
+    </div>
+    
+    <div id="modal-index" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('modal-index')">&times;</span>
+            <h2>list.index()</h2>
+            
+            <p><strong>Was macht .index()?</strong></p>
+            <p><code>liste.index(wert)</code> gibt die <strong>Position</strong> des Werts zurück.</p>
+            
+            <p><strong>Beispiele:</strong></p>
+            <div class="code-box">zahlen = [5, 10, 3, 8]
+zahlen.index(10)  # 1 (10 steht an Position 1)
+zahlen.index(3)   # 2 (3 steht an Position 2)
+zahlen.index(5)   # 0 (5 steht an Position 0)</div>
+            
+            <p><strong>Beim Q-Learning:</strong></p>
+            <div class="code-box">q_werte = [3.5, 7.2, 2.1, 8.9]
+hoechster = max(q_werte)      # 8.9
+position = q_werte.index(8.9)  # 3
+# Position 3 = Richtung 3 = Rechts!</div>
+            
+            <p><strong>Wichtig:</strong> Positionen (Indizes) starten bei 0!</p>
+            
+            <p style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd;">
+                <strong>Mehr Infos:</strong> 
+                <a href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists" target="_blank" style="color: #2196F3;">Python Dokumentation zu Listen-Methoden</a>
+            </p>
+        </div>
+    </div>
+    
+    <div id="modal-break" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('modal-break')">&times;</span>
+            <h2>break</h2>
+            
+            <p><strong>Was macht break?</strong></p>
+            <p><code>break</code> beendet die Schleife <strong>sofort</strong>.</p>
+            
+            <p><strong>Beispiel:</strong></p>
+            <div class="code-box">for i in range(10):
+    if i == 5:
+        break
+    print(i)
+# Ausgabe: 0, 1, 2, 3, 4
+# Bei 5 wird die Schleife abgebrochen</div>
+            
+            <p><strong>Beim Start-Suchen:</strong></p>
+            <div class="code-box">for y in range(len(labyrinth)):
+    for x in range(len(labyrinth[0])):
+        if labyrinth[y][x] == "S":
+            start_y, start_x = y, x
+            break  # Start gefunden, Schleife beenden</div>
+            
+            <p><strong>Ohne break:</strong> Schleife läuft weiter, auch wenn Start schon gefunden</p>
+            <p><strong>Mit break:</strong> Effizienter, stoppt sofort</p>
+            
+            <p style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd;">
+                <strong>Mehr Infos:</strong> 
+                <a href="https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops" target="_blank" style="color: #2196F3;">Python Dokumentation zu break</a>
+            </p>
+        </div>
+    </div>
+    
+    <div id="modal-tuple" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('modal-tuple')">&times;</span>
+            <h2>Mehrfach-Zuweisung</h2>
+            
+            <p><strong>Was ist das?</strong></p>
+            <p>Man kann mehrere Variablen auf einmal zuweisen:</p>
+            
+            <p><strong>Beispiele:</strong></p>
+            <div class="code-box">a, b = 5, 10
+# a ist jetzt 5
+# b ist jetzt 10
+
+x, y = y, x  # Tauscht x und y!
+
+dy, dx = richtungen[3]
+# dy bekommt erstes Element
+# dx bekommt zweites Element</div>
+            
+            <p><strong>Beim Roboter:</strong></p>
+            <div class="code-box">richtungen[3] = (0, 1)  # Rechts
+
+dy, dx = richtungen[3]
+# dy = 0
+# dx = 1
+
+y, x = neue_y, neue_x
+# Bewegt Roboter zur neuen Position</div>
+            
+            <p><strong>Das nennt man:</strong> Tuple Unpacking (Tupel entpacken)</p>
+            
+            <p style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd;">
+                <strong>Mehr Infos:</strong> 
+                <a href="https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences" target="_blank" style="color: #2196F3;">Python Dokumentation zu Tupeln</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function toggleHelp(id) {
+            const helpCard = document.getElementById(id);
+            helpCard.classList.toggle('visible');
+        }
+        
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Schließe Modal bei Klick außerhalb
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+        
+        // Fortschritts-Tracker automatisch updaten
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.checkbox-item input[type="checkbox"]');
+            const tracker = document.getElementById('progressTracker');
+            const contextBox = document.getElementById('algorithmContext');
+            const contextText = document.getElementById('contextText');
+            
+            // Kontext-Texte für jede Aufgabe (NEUE REIHENFOLGE!)
+            const contexts = {
+                1: '<strong>ERKUNDEN:</strong> Diese Funktion gibt dem Roboter erste zufällige Ideen für neue Felder',
+                2: '<strong>ENTSCHEIDEN:</strong> Diese Funktion wählt die beste Richtung (höchster Q-Wert)',
+                3: '<strong>PRÜFEN:</strong> Diese Funktion checkt ob ein Feld schon besucht wurde (alle Q-Werte = 0.0?)',
+                4: '<strong>LERNEN:</strong> Diese Funktion updated das alte Feld mit dem neuen Wissen (max - 1)',
+                5: '<strong>EINE EPISODE:</strong> Jetzt kommt alles zusammen - ein kompletter Durchlauf vom Start zum Ziel!',
+                6: '<strong>TESTEN:</strong> Schau ob der Roboter den Weg findet und die Q-Werte sich ändern'
+            };
+            
+            // Mapping: Aufgabe → Algo-Schritte (NEUE REIHENFOLGE!)
+            const taskToAlgo = {
+                1: [2],         // wuerfle → Erkunden (Schritt 2)
+                2: [3],         // waehle_beste → Entscheiden (Schritt 3)
+                3: [4],         // ist_unbesucht → Prüfen (Schritt 4)
+                4: [5],         // update → Lernen (Schritt 5)
+                5: [7],         // episode → Training (Schritt ∞)
+                6: [7]          // Test → Training (Schritt ∞)
+            };
+            
+            function updateAlgoSidebar() {
+                // Finde höchste gecheckte Aufgabe
+                let highestChecked = 0;
+                checkboxes.forEach((cb, index) => {
+                    if (cb.checked && (index + 1) > highestChecked) {
+                        highestChecked = index + 1;
+                    }
+                });
+                
+                // Reset alle Algo-Steps
+                for (let i = 1; i <= 7; i++) {
+                    const algoStep = document.getElementById('algo' + i);
+                    if (algoStep) {
+                        algoStep.classList.remove('active');
+                        algoStep.classList.remove('completed');
+                    }
+                }
+                
+                // Markiere erledigte Schritte
+                for (let task = 1; task <= highestChecked; task++) {
+                    const algoSteps = taskToAlgo[task] || [];
+                    algoSteps.forEach(algoNum => {
+                        const algoStep = document.getElementById('algo' + algoNum);
+                        if (algoStep) {
+                            algoStep.classList.add('completed');
+                        }
+                    });
+                }
+                
+                // Markiere aktuellen Schritt
+                if (highestChecked < 6) {
+                    const nextTask = highestChecked + 1;
+                    const nextAlgoSteps = taskToAlgo[nextTask] || [];
+                    nextAlgoSteps.forEach(algoNum => {
+                        const algoStep = document.getElementById('algo' + algoNum);
+                        if (algoStep) {
+                            algoStep.classList.add('active');
+                        }
+                    });
+                }
+                
+                // Zeige Sidebar wenn mindestens 1 Checkbox
+                if (highestChecked > 0 && algoSidebar) {
+                    algoSidebar.classList.add('visible');
+                }
+            }
+            
+            function updateContext() {
+                // Finde die höchste gecheckte Aufgabe
+                let highestChecked = 0;
+                checkboxes.forEach((cb, index) => {
+                    if (cb.checked && (index + 1) > highestChecked) {
+                        highestChecked = index + 1;
+                    }
+                });
+                
+                // Zeige Kontext für nächste Aufgabe
+                if (highestChecked > 0 && highestChecked < 6) {
+                    const nextTask = highestChecked + 1;
+                    contextText.innerHTML = contexts[nextTask];
+                    contextBox.style.display = 'block';
+                } else if (highestChecked === 6) {
+                    contextText.innerHTML = '🎉 <strong>FERTIG!</strong> Du hast alle Funktionen programmiert!';
+                    contextBox.style.display = 'block';
+                } else {
+                    // Keine Checkbox gecheckt - zeige Starttext
+                    contextText.innerHTML = 'Beginne mit Aufgabe 1 um deinen Fortschritt zu sehen!';
+                }
+            }
+            
+            checkboxes.forEach((checkbox, index) => {
+                // Lade gespeicherten Zustand
+                const saved = localStorage.getItem('block2_checkbox_' + index);
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    updateProgress(index + 1, true);
+                    // Progress-Tracker wird nur durch Scrollen angezeigt
+                }
+                
+                // Bei Änderung
+                checkbox.addEventListener('change', function() {
+                    localStorage.setItem('block2_checkbox_' + index, this.checked);
+                    updateProgress(index + 1, this.checked);
+                    updateContext();
+                    updateAlgoSidebar();
+                    // Progress-Tracker wird nur noch durch Scrollen angezeigt
+                });
+            });
+            
+            // Initial Context & Sidebar setzen
+            updateContext();
+            updateAlgoSidebar();
+            
+            // Scroll-Detection: Zeige welche Aufgabe gerade sichtbar ist
+            function updateSidebarOnScroll() {
+                let currentTask = null;
+                const scrollPos = window.scrollY + window.innerHeight / 3;
+                
+                // Finde alle Aufgaben
+                const taskElements = document.querySelectorAll('.task-number');
+                
+                taskElements.forEach(taskEl => {
+                    const rect = taskEl.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
+                        // Extrahiere Aufgabennummer aus Text "Aufgabe X: ..."
+                        const match = taskEl.textContent.match(/Aufgabe (\d+):/);
+                        if (match) {
+                            currentTask = parseInt(match[1]);
+                        }
+                    }
+                });
+                
+                // Zeige Progress-Tracker ab Aufgabe 1
+                if (currentTask && tracker) {
+                    tracker.classList.add('visible');
+                }
+                
+                // Entferne alle viewing-Klassen
+                for (let i = 1; i <= 7; i++) {
+                    const algoStep = document.getElementById('algo' + i);
+                    if (algoStep) {
+                        algoStep.classList.remove('viewing');
+                    }
+                }
+                
+                // Markiere aktuelle Aufgabe in Sidebar
+                if (currentTask) {
+                    const algoSteps = taskToAlgo[currentTask] || [];
+                    algoSteps.forEach(algoNum => {
+                        const algoStep = document.getElementById('algo' + algoNum);
+                        if (algoStep) {
+                            algoStep.classList.add('viewing');
+                        }
+                    });
+                    
+                    // Markiere auch im Progress-Tracker
+                    const progressStep = document.getElementById('step' + currentTask);
+                    if (progressStep) {
+                        // Entferne alte viewing-Markierung
+                        document.querySelectorAll('.progress-step').forEach(step => {
+                            step.classList.remove('viewing');
+                        });
+                        progressStep.classList.add('viewing');
+                    }
+                }
+            }
+            
+            // Scroll-Event
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(updateSidebarOnScroll, 50);
+            });
+            updateSidebarOnScroll(); // Initial call
+        });
+        
+        function updateProgress(stepNumber, checked) {
+            const step = document.getElementById('step' + stepNumber);
+            if (step) {
+                if (checked) {
+                    step.classList.add('completed');
+                } else {
+                    step.classList.remove('completed');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
