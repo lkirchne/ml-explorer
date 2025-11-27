@@ -32,7 +32,14 @@
             border-radius: 10px;
         }
         .task { border-left: 4px solid #FF6B6B; padding-left: 20px; margin: 20px 0; }
-        .task-number { font-size: 1.3em; font-weight: bold; color: #FF6B6B; margin-bottom: 10px; }
+        .task-number { 
+            font-size: 1.4em; 
+            font-weight: bold; 
+            color: #FF6B6B; 
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #FFE0E0;
+        }
         .code-box {
             background: #f5f5f5;
             border: 1px solid #ddd;
@@ -76,20 +83,33 @@
         }
         .think-box { background: #f3e5f5; border-left: 4px solid #9c27b0; padding: 15px; margin: 15px 0; }
         .info-box { background: #e3f2fd; border-left: 4px solid #2196F3; padding: 15px; margin: 15px 0; }
-        .warning-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; }
+        .warning-box { 
+            background: #fff3cd; 
+            border-left: 5px solid #ffc107; 
+            padding: 15px; 
+            margin: 15px 0; 
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(255, 193, 7, 0.2);
+        }
         .algorithm-box {
             background: #fff;
-            border: 3px solid #FF6B6B;
-            padding: 20px;
-            margin: 20px 0;
+            border: 4px solid #FF6B6B;
+            padding: 25px;
+            margin: 25px 0;
             border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.15);
         }
         .step {
-            padding: 12px;
-            margin: 10px 0;
-            border-left: 4px solid #ddd;
-            border-radius: 3px;
+            padding: 14px;
+            margin: 12px 0;
+            border-left: 5px solid #ddd;
+            border-radius: 5px;
             background: #f8f9fa;
+            transition: all 0.2s;
+        }
+        .step:hover {
+            background: #f0f0f0;
+            border-left-color: #FF6B6B;
         }
         .algorithm-context {
             display: block;
@@ -178,21 +198,24 @@
             font-weight: bold;
         }
         .self-check-box {
-            background: #e8f5e9;
-            border: 3px solid #4CAF50;
-            padding: 20px;
-            margin: 20px 0;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 4px solid #4CAF50;
+            padding: 25px;
+            margin: 30px 0;
             border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.2);
         }
         .self-check-box h3 {
             color: #2e7d32;
             margin-bottom: 15px;
+            font-size: 1.3em;
         }
         .self-check-box ol {
             margin-left: 25px;
         }
         .self-check-box li {
-            margin: 8px 0;
+            margin: 10px 0;
+            line-height: 1.8;
         }
         .progress-tracker {
             background: rgba(245, 245, 245, 0.95);
@@ -520,55 +543,21 @@
 
     <!-- Dynamische Kontext-Box (zeigt wo man im Algorithmus ist) -->
     <div class="content">
-        <div class="algorithm-context" id="algorithmContext">
-            <span id="contextText">📍 Beginne mit Aufgabe 1 um deinen Fortschritt zu sehen!</span>
+        <div class="algorithm-context" id="algorithmContext" style="display: none;">
+            <span id="contextText"></span>
         </div>
     </div>
 
     <div class="content">
         <div class="task">
-            <div class="task-number">Aufgabe 1: Würfel-Funktion</div>
+            <div class="task-number">Aufgabe 1: Würfel-Funktion (ERKUNDEN)</div>
             
-            <div class="partner-box">
-                <h3>Partnerarbeit: Plant die Funktion</h3>
-                <p><strong>Was muss die Funktion tun?</strong></p>
-                <ol>
-                    <li>Für jede Richtung (0-3): Berechne Zielposition</li>
-                    <li>Ist Ziel außerhalb oder Wand? → Setze auf -inf</li>
-                    <li>Sonst: Würfle Zufallswert zwischen 0 und 10</li>
-                </ol>
-            
-            <div class="copy-instruction">Füge diese Funktion hinzu</div>
-            <div class="code-box">def ist_unbesucht(y, x):
-    """Prüft ob Feld noch nicht besucht wurde"""
-    # Gehe durch alle 4 Richtungen (0, 1, 2, 3)
-    for i in range(4):
-        if q_tabelle[y][x][i] != 0.0:
-            # Mindestens ein Wert ist nicht 0
-            return False
-    # Alle Werte sind 0
-    return True</div>
-            
-            <div class="think-box">
-                <strong>Wie funktioniert das?</strong>
-                <ul>
-                    <li>Schleife geht durch Index 0, 1, 2, 3 (die 4 Richtungen)</li>
-                    <li>Prüft jeden Wert: <code>q_tabelle[y][x][0]</code>, dann <code>[1]</code>, usw.</li>
-                    <li>Sobald einer nicht 0.0 ist: <code>return False</code> (wurde besucht)</li>
-                    <li>Wenn Schleife durchläuft ohne return: Alle sind 0 → <code>return True</code></li>
-                </ul>
+            <div class="info-box">
+                <strong>🎯 Algorithmus-Schritt 2:</strong> ERKUNDEN - Würfle alle 4 Richtungen
             </div>
             
-            <label class="checkbox-item"><input type="checkbox"> Prüf-Funktion hinzugefügt</label>
-        </div>
-    </div>
-
-    <div class="content">
-        <div class="task">
-            <div class="task-number">Aufgabe 2: Würfel-Funktion</div>
-            
             <div class="partner-box">
-                <h3>Partnerarbeit: Plant die Funktion</h3>
+                <h3>Partnerarbeit: Plant die Funktion (5 Min)</h3>
                 <p><strong>Was muss die Funktion tun?</strong></p>
                 <ol>
                     <li>Für jede Richtung (0-3): Berechne Zielposition</li>
@@ -576,8 +565,8 @@
                     <li>Sonst: Würfle Zufallswert zwischen 0 und 10</li>
                 </ol>
                 
-                <button class="help-btn" onclick="toggleHelp('help2')">Hilfe: Gerüst</button>
-                <div class="help-card" id="help2">
+                <button class="help-btn" onclick="toggleHelp('help1')">Hilfe: Gerüst</button>
+                <div class="help-card" id="help1">
                     <div class="code-box">import random
 
 def wuerfle_richtungen(y, x):
@@ -594,8 +583,8 @@ def wuerfle_richtungen(y, x):
             q_tabelle[y][x][aktion] = random.randint(0, 10)</div>
                 </div>
                 
-                <button class="help-btn" onclick="toggleHelp('help2-grenzen')">Hilfe: Wie prüfe ich Grenzen?</button>
-                <div class="help-card" id="help2-grenzen">
+                <button class="help-btn" onclick="toggleHelp('help1-grenzen')">Hilfe: Wie prüfe ich Grenzen?</button>
+                <div class="help-card" id="help1-grenzen">
                     <strong>Schritt für Schritt:</strong>
                     
                     <p><strong>1. Ist neue_y zu klein?</strong> (oben raus)</p>
@@ -623,8 +612,8 @@ def wuerfle_richtungen(y, x):
     labyrinth[neue_y][neue_x] == "#"):</div>
                 </div>
                 
-                <button class="help-btn" onclick="toggleHelp('help2b')">Hilfe: Komplette Lösung</button>
-                <div class="help-card" id="help2b">
+                <button class="help-btn" onclick="toggleHelp('help1b')">Hilfe: Komplette Lösung</button>
+                <div class="help-card" id="help1b">
                     <div class="code-box">import random
 
 def wuerfle_richtungen(y, x):
@@ -653,12 +642,11 @@ def wuerfle_richtungen(y, x):
             </div>
             
             <div class="warning-box">
-                <strong>WICHTIG:</strong> Ganz oben in deiner Datei muss stehen:<br>
-                <code>import random</code>
+                <strong>⚠️ WICHTIG:</strong> Ganz oben in deiner Datei muss stehen:<br>
+                <code style="background: white; padding: 5px; border-radius: 3px;">import random</code>
             </div>
             
-            <div class="copy-instruction">Füge die Funktion hinzu</div>
-            <p><strong>Schreibt sie gemeinsam!</strong></p>
+            <div class="copy-instruction">Schreibt die Funktion gemeinsam!</div>
             
             <label class="checkbox-item"><input type="checkbox"> Würfel-Funktion geschrieben</label>
         </div>
@@ -666,7 +654,11 @@ def wuerfle_richtungen(y, x):
 
     <div class="content">
         <div class="task">
-            <div class="task-number">Aufgabe 3: Beste Richtung wählen</div>
+            <div class="task-number">Aufgabe 2: Beste Richtung wählen (ENTSCHEIDEN)</div>
+            
+            <div class="info-box">
+                <strong>🎯 Algorithmus-Schritt 3:</strong> ENTSCHEIDEN - Gehe in Richtung mit höchstem Q-Wert
+            </div>
             
             <div class="info-box">
                 <strong>Aufgabe:</strong> Finde die Richtung mit dem höchsten Q-Wert
@@ -693,11 +685,53 @@ def wuerfle_richtungen(y, x):
 
     <div class="content">
         <div class="task">
-            <div class="task-number">Aufgabe 4: Update-Funktion</div>
+            <div class="task-number">Aufgabe 3: Prüfe ob schon besucht (PRÜFEN)</div>
+            
+            <div class="info-box">
+                <strong>🎯 Algorithmus-Schritt 4:</strong> PRÜFEN - Neues Feld schon besucht?
+            </div>
+            
+            <div class="info-box">
+                <strong>Idee:</strong> Ein Feld wurde besucht, wenn dort schon gewürfelt wurde.
+                <br><strong>Prüfung:</strong> Sind alle 4 Q-Werte noch 0.0? → Noch nicht besucht!
+            </div>
+            
+            <div class="copy-instruction">Füge diese Funktion hinzu</div>
+            <div class="code-box">def ist_unbesucht(y, x):
+    """Prüft ob Feld noch nicht besucht wurde"""
+    # Gehe durch alle 4 Richtungen (0, 1, 2, 3)
+    for i in range(4):
+        if q_tabelle[y][x][i] != 0.0:
+            # Mindestens ein Wert ist nicht 0
+            return False
+    # Alle Werte sind 0
+    return True</div>
+            
+            <div class="think-box">
+                <strong>Wie funktioniert das?</strong>
+                <ul>
+                    <li>Schleife geht durch Index 0, 1, 2, 3 (die 4 Richtungen)</li>
+                    <li>Prüft jeden Wert: <code>q_tabelle[y][x][0]</code>, dann <code>[1]</code>, usw.</li>
+                    <li>Sobald einer nicht 0.0 ist: <code>return False</code> (wurde besucht)</li>
+                    <li>Wenn Schleife durchläuft ohne return: Alle sind 0 → <code>return True</code></li>
+                </ul>
+            </div>
+            
+            <label class="checkbox-item"><input type="checkbox"> Prüf-Funktion hinzugefügt</label>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="task">
+            <div class="task-number">Aufgabe 4: Update-Funktion (LERNEN)</div>
+            
+            <div class="info-box">
+                <strong>🎯 Algorithmus-Schritt 5:</strong> LERNEN - Update das alte Feld
+            </div>
             
             <div class="warning-box">
-                <strong>WICHTIG:</strong> Diese Funktion updated das ALTE Feld!<br>
-                <code>Q[alt_y][alt_x][aktion] = max(Q[neu_y][neu_x]) - 1</code>
+                <strong>⚠️ WICHTIG:</strong> Diese Funktion updated das ALTE Feld!<br>
+                <code style="background: white; padding: 5px; border-radius: 3px;">Q[alt_y][alt_x][aktion] = max(Q[neu_y][neu_x]) - 1</code>
             </div>
             
             <div class="partner-box">
@@ -731,22 +765,26 @@ def wuerfle_richtungen(y, x):
 
     <div class="content">
         <div class="self-check-box">
-            <h3>Selbst-Check: Funktionieren deine Funktionen?</h3>
+            <h3>✅ Selbst-Check: Funktionieren deine Funktionen?</h3>
             <p><strong>Teste deine Funktionen bevor du weitermachst:</strong></p>
             <ol>
-                <li>Rufe <code>ist_unbesucht(0, 0)</code> auf - gibt es <code>True</code>?</li>
                 <li>Rufe <code>wuerfle_richtungen(0, 0)</code> auf - sind die Werte nicht mehr 0.0?</li>
                 <li>Rufe <code>waehle_beste_richtung(0, 0)</code> - gibt es eine Zahl 0-3?</li>
+                <li>Rufe <code>ist_unbesucht(0, 1)</code> auf - gibt es <code>True</code>?</li>
                 <li>Schau in <code>q_tabelle[0][0]</code> - siehst du die gewürfelten Werte?</li>
             </ol>
-            <p><strong>Alles funktioniert?</strong> Weiter zu Aufgabe 5!</p>
-            <p><strong>Fehler?</strong> Frag deinen Partner oder den Lehrer.</p>
+            <p><strong>✓ Alles funktioniert?</strong> Weiter zu Aufgabe 5!</p>
+            <p><strong>✗ Fehler?</strong> Frag deinen Partner oder den Lehrer.</p>
         </div>
     </div>
 
     <div class="content">
         <div class="task">
-            <div class="task-number">Aufgabe 5: Eine Episode (Ein Durchlauf)</div>
+            <div class="task-number">Aufgabe 5: Eine Episode (ALLES ZUSAMMEN)</div>
+            
+            <div class="info-box">
+                <strong>🎯 Algorithmus-Schritt 2-6:</strong> TRAINING - Alles zusammen in einer Funktion!
+            </div>
             
             <div class="info-box">
                 <strong>Jetzt kommt alles zusammen!</strong> Eine Episode = Vom Start bis zum Ziel
@@ -804,7 +842,13 @@ def wuerfle_richtungen(y, x):
         
         # Bewege Roboter
         y, x = neue_y, neue_x
-        schritte += 1</div>
+        schritte += 1
+    
+    # Nach der Schleife: War es erfolgreich?
+    if labyrinth[y][x] == "Z":
+        print(f"Ziel erreicht nach {schritte} Schritten!")
+    else:
+        print("Abbruch: Ziel nach 100 Schritten nicht gefunden.")</div>
                 </div>
                 
                 <button class="help-btn" onclick="toggleHelp('help5b')">Hilfe: Komplette Lösung</button>
@@ -845,12 +889,27 @@ def wuerfle_richtungen(y, x):
         y, x = neue_y, neue_x
         schritte += 1
     
-    print(f"Ziel erreicht nach {schritte} Schritten!")</div>
+    # Nach der Schleife: War es erfolgreich?
+    if labyrinth[y][x] == "Z":
+        print(f"Ziel erreicht nach {schritte} Schritten!")
+    else:
+        print("Abbruch: Ziel nach 100 Schritten nicht gefunden.")</div>
                 </div>
             </div>
             
             <div class="warning-box">
-                <strong>Wichtig:</strong> <code>schritte &lt; 100</code> verhindert Endlosschleifen!
+                <strong>⚠️ Wichtig:</strong> <code>schritte &lt; 100</code> verhindert Endlosschleifen!<br>
+                <br>
+                <strong>Nach der Schleife:</strong> Prüfe mit <code>if labyrinth[y][x] == "Z"</code> ob das Ziel erreicht wurde oder ob der Abbruch nach 100 Schritten kam.
+            </div>
+            
+            <div class="think-box">
+                <strong>💡 Warum dieser Check?</strong>
+                <ul>
+                    <li><strong>Ziel erreicht:</strong> while-Schleife stoppt weil <code>labyrinth[y][x] == "Z"</code></li>
+                    <li><strong>Abbruch nach 100:</strong> while-Schleife stoppt weil <code>schritte >= 100</code></li>
+                    <li><strong>Unterscheidung:</strong> Prüfe am Ende welcher Fall eingetreten ist!</li>
+                </ul>
             </div>
             
             <div class="info-box">
@@ -867,7 +926,11 @@ def wuerfle_richtungen(y, x):
 
     <div class="content">
         <div class="task">
-            <div class="task-number">Aufgabe 6: Erste Episode testen</div>
+            <div class="task-number">Aufgabe 6: Erste Episode testen (TEST)</div>
+            
+            <div class="info-box">
+                <strong>🎯 Algorithmus-Test:</strong> Schau ob alles funktioniert!
+            </div>
             
             <div class="copy-instruction">Teste deine Episode</div>
             <div class="code-box"># Test: Eine Episode
@@ -881,10 +944,10 @@ for y in range(len(labyrinth)):
             print(f"\nQ-Werte am Start: {q_tabelle[y][x]}")</div>
             
             <div class="info-box">
-                <strong>Was du sehen solltest:</strong><br>
-                - "Ziel erreicht nach X Schritten!"<br>
-                - Updates entlang des Weges<br>
-                - Q-Werte am Start sind nicht mehr alle gewürfelt
+                <strong>✓ Was du sehen solltest:</strong><br>
+                • "Ziel erreicht nach X Schritten!"<br>
+                • Updates entlang des Weges<br>
+                • Q-Werte am Start sind nicht mehr alle gewürfelt
             </div>
             
             <label class="checkbox-item"><input type="checkbox"> Erste Episode erfolgreich!</label>
@@ -892,16 +955,17 @@ for y in range(len(labyrinth)):
     </div>
 
     <div class="content">
-        <h2>Block 2 geschafft!</h2>
+        <h2>🎉 Block 2 geschafft!</h2>
         <div class="info-box">
-            <strong>Ihr habt jetzt:</strong>
+            <strong>Ihr habt jetzt programmiert:</strong>
             <ul>
-                <li>Den Algorithmus vom Papierspiel programmiert</li>
-                <li>Würfel-Funktion für neue Felder</li>
-                <li>Update-Funktion (max - 1)</li>
-                <li>Eine komplette Episode</li>
+                <li>✅ <strong>wuerfle_richtungen()</strong> - ERKUNDEN (Schritt 2)</li>
+                <li>✅ <strong>waehle_beste_richtung()</strong> - ENTSCHEIDEN (Schritt 3)</li>
+                <li>✅ <strong>ist_unbesucht()</strong> - PRÜFEN (Schritt 4)</li>
+                <li>✅ <strong>update_q_wert()</strong> - LERNEN (Schritt 5)</li>
+                <li>✅ <strong>eine_episode()</strong> - ALLES ZUSAMMEN</li>
             </ul>
-            <strong>In Block 3:</strong> Viele Episoden (Training) und den gelernten Weg anzeigen!
+            <strong>➡️ In Block 3:</strong> Viele Episoden (Training) und den gelernten Weg visualisieren!
         </div>
     </div>
 
@@ -1161,61 +1225,7 @@ y, x = neue_y, neue_x
             };
             
             // Mapping: Aufgabe → Algo-Schritte (NEUE REIHENFOLGE!)
-            const taskToAlgo = {
-                1: [2],         // wuerfle → Erkunden (Schritt 2)
-                2: [3],         // waehle_beste → Entscheiden (Schritt 3)
-                3: [4],         // ist_unbesucht → Prüfen (Schritt 4)
-                4: [5],         // update → Lernen (Schritt 5)
-                5: [7],         // episode → Training (Schritt ∞)
-                6: [7]          // Test → Training (Schritt ∞)
-            };
             
-            function updateAlgoSidebar() {
-                // Finde höchste gecheckte Aufgabe
-                let highestChecked = 0;
-                checkboxes.forEach((cb, index) => {
-                    if (cb.checked && (index + 1) > highestChecked) {
-                        highestChecked = index + 1;
-                    }
-                });
-                
-                // Reset alle Algo-Steps
-                for (let i = 1; i <= 7; i++) {
-                    const algoStep = document.getElementById('algo' + i);
-                    if (algoStep) {
-                        algoStep.classList.remove('active');
-                        algoStep.classList.remove('completed');
-                    }
-                }
-                
-                // Markiere erledigte Schritte
-                for (let task = 1; task <= highestChecked; task++) {
-                    const algoSteps = taskToAlgo[task] || [];
-                    algoSteps.forEach(algoNum => {
-                        const algoStep = document.getElementById('algo' + algoNum);
-                        if (algoStep) {
-                            algoStep.classList.add('completed');
-                        }
-                    });
-                }
-                
-                // Markiere aktuellen Schritt
-                if (highestChecked < 6) {
-                    const nextTask = highestChecked + 1;
-                    const nextAlgoSteps = taskToAlgo[nextTask] || [];
-                    nextAlgoSteps.forEach(algoNum => {
-                        const algoStep = document.getElementById('algo' + algoNum);
-                        if (algoStep) {
-                            algoStep.classList.add('active');
-                        }
-                    });
-                }
-                
-                // Zeige Sidebar wenn mindestens 1 Checkbox
-                if (highestChecked > 0 && algoSidebar) {
-                    algoSidebar.classList.add('visible');
-                }
-            }
             
             function updateContext() {
                 // Finde die höchste gecheckte Aufgabe
@@ -1235,8 +1245,8 @@ y, x = neue_y, neue_x
                     contextText.innerHTML = '🎉 <strong>FERTIG!</strong> Du hast alle Funktionen programmiert!';
                     contextBox.style.display = 'block';
                 } else {
-                    // Keine Checkbox gecheckt - zeige Starttext
-                    contextText.innerHTML = 'Beginne mit Aufgabe 1 um deinen Fortschritt zu sehen!';
+                    // Keine Checkbox gecheckt - Box bleibt versteckt
+                    contextBox.style.display = 'none';
                 }
             }
             
@@ -1254,30 +1264,37 @@ y, x = neue_y, neue_x
                     localStorage.setItem('block2_checkbox_' + index, this.checked);
                     updateProgress(index + 1, this.checked);
                     updateContext();
-                    updateAlgoSidebar();
                     // Progress-Tracker wird nur noch durch Scrollen angezeigt
                 });
             });
             
-            // Initial Context & Sidebar setzen
+            // Initial Context setzen
             updateContext();
-            updateAlgoSidebar();
             
             // Scroll-Detection: Zeige welche Aufgabe gerade sichtbar ist
             function updateSidebarOnScroll() {
                 let currentTask = null;
-                const scrollPos = window.scrollY + window.innerHeight / 3;
+                let closestDistance = Infinity;
+                const viewportCenter = window.innerHeight / 3;
                 
                 // Finde alle Aufgaben
                 const taskElements = document.querySelectorAll('.task-number');
                 
                 taskElements.forEach(taskEl => {
                     const rect = taskEl.getBoundingClientRect();
-                    if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
-                        // Extrahiere Aufgabennummer aus Text "Aufgabe X: ..."
-                        const match = taskEl.textContent.match(/Aufgabe (\d+):/);
-                        if (match) {
-                            currentTask = parseInt(match[1]);
+                    
+                    // Berechne Distanz zur Referenz-Position (oberes Drittel)
+                    const distance = Math.abs(rect.top - viewportCenter);
+                    
+                    // Nur sichtbare Elemente berücksichtigen
+                    if (rect.top >= -100 && rect.top <= window.innerHeight) {
+                        // Ist dieses Element näher als das bisherige?
+                        if (distance < closestDistance) {
+                            const match = taskEl.textContent.match(/Aufgabe (\d+):/);
+                            if (match) {
+                                currentTask = parseInt(match[1]);
+                                closestDistance = distance;
+                            }
                         }
                     }
                 });
@@ -1287,25 +1304,8 @@ y, x = neue_y, neue_x
                     tracker.classList.add('visible');
                 }
                 
-                // Entferne alle viewing-Klassen
-                for (let i = 1; i <= 7; i++) {
-                    const algoStep = document.getElementById('algo' + i);
-                    if (algoStep) {
-                        algoStep.classList.remove('viewing');
-                    }
-                }
-                
-                // Markiere aktuelle Aufgabe in Sidebar
+                // Markiere aktuelle Aufgabe im Progress-Tracker
                 if (currentTask) {
-                    const algoSteps = taskToAlgo[currentTask] || [];
-                    algoSteps.forEach(algoNum => {
-                        const algoStep = document.getElementById('algo' + algoNum);
-                        if (algoStep) {
-                            algoStep.classList.add('viewing');
-                        }
-                    });
-                    
-                    // Markiere auch im Progress-Tracker
                     const progressStep = document.getElementById('step' + currentTask);
                     if (progressStep) {
                         // Entferne alte viewing-Markierung
